@@ -27,22 +27,20 @@ public class SQLiteJDBC {
 	         System.out.println("Opened database successfully");
 
 	         stmt = c.createStatement();
-	         String sql = "CREATE TABLE COMPANY " +
-	                        "(ID INT PRIMARY KEY     NOT NULL," +
-	                        " NAME           TEXT    NOT NULL, " + 
-	                        " AGE            INT     NOT NULL, " + 
-	                        " ADDRESS        CHAR(50), " + 
-	                        " SALARY         REAL)"; 
+	         String sql = "CREATE TABLE developer" +
+	                        "(initials    CHAR(4)     PRIMARY KEY     NOT NULL," +
+	                        " name        TEXT     NOT NULL, " + 
+	                        " leader      BIT      DEFAULT 0)"; 
 	         stmt.executeUpdate(sql);
 	         
-//	         sql = "CREATE TABLE developer " +
-//                     "(initials INT PRIMARY KEY     NOT NULL," +
+//	         String sql = "CREATE TABLE developer " +
+//                     "(ID INT PRIMARY KEY     NOT NULL," +
 //                     " NAME           TEXT    NOT NULL, " + 
 //                     " AGE            INT     NOT NULL, " + 
 //                     " ADDRESS        CHAR(50), " + 
 //                     " SALARY         REAL)"; 
 //	         stmt.executeUpdate(sql);
-//	         
+	         
 	         
 	         stmt.close();
 	         c.close();
@@ -170,9 +168,10 @@ public class SQLiteJDBC {
 	
 	
   public static void main( String args[] ) {
-      //createTable();
+      connect();
+	  createTable();
 	  //insert();
-	  select();
+	  //select();
 	  //delete();
    }
 }
