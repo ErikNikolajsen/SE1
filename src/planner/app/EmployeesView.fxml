@@ -7,9 +7,9 @@
 
 <AnchorPane prefHeight="320.0" prefWidth="490.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="planner.app.EmployeesController">
    <children>
-      <Button layoutX="180.0" layoutY="258.0" mnemonicParsing="false" text="Button" />
+      <Button layoutX="180.0" layoutY="258.0" mnemonicParsing="false" onAction="#onAddEmployee" text="Add" />
       <DatePicker layoutX="238.0" layoutY="64.0" />
-      <TextField layoutX="45.0" layoutY="52.0" promptText="Name" />
-      <TextField layoutX="45.0" layoutY="89.0" promptText="Initials" />
+      <TextField fx:id="name" layoutX="45.0" layoutY="52.0" promptText="Name" />
+      <TextField fx:id="initials" layoutX="45.0" layoutY="89.0" promptText="Initials" />
    </children>
 </AnchorPane>

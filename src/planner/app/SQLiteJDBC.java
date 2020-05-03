@@ -99,7 +99,7 @@ public class SQLiteJDBC {
 		      System.out.println("Opened database successfully");
 
 		      stmt = c.createStatement();
-		      ResultSet rs = stmt.executeQuery( "SELECT * FROM COMPANY;" );
+		      ResultSet rs = stmt.executeQuery( "SELECT * FROM developer;" );
 		      
 		      while ( rs.next() ) {
 		         int id = rs.getInt("id");
@@ -168,10 +168,10 @@ public class SQLiteJDBC {
 	
 	
   public static void main( String args[] ) {
-      connect();
-	  createTable();
+      //connect();
+	  //createTable();
 	  //insert();
-	  //select();
+	  select();
 	  //delete();
    }
 }

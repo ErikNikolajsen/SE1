@@ -8,6 +8,8 @@ import javafx.scene.Scene;
 
 public class MenuController {
 	
+	
+	// Events
 	public void onEmployees(ActionEvent event) throws Exception {
 		Parent recipesPath = FXMLLoader.load(getClass().getResource("EmployeesView.fxml"));
 		Scene recipesScene = new Scene(recipesPath);

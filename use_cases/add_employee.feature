@@ -1,4 +1,4 @@
-Feature: Create
+Feature: Add an employee to the company
 	Description: A project 
 	Actor: Any employee
 	
