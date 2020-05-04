@@ -27,8 +27,5 @@ public class Login {
 				System.out.println("Error: invalid input");
 			}
 		}
-	
 	}
-	
-	
 }

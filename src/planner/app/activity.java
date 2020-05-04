@@ -25,6 +25,18 @@ public class activity {
 				System.out.println("Error: invalid input");
 			}
 		}
-		System.out.println("success!");
 	}
+	
+	static void displayMyActivity() {
+		
+	}
+	
+	static void displayRegisterhour() {
+		
+	}
+	
+	static void displayReqAssistance() {
+		
+	}
+	
 }

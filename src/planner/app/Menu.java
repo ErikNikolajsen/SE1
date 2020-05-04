@@ -9,8 +9,6 @@ public class Menu {
 		System.out.println("2. My Activity");
 		System.out.println("3. Logout");
 		
-		
-		
 		boolean validInput = false;
 		while (validInput == false) {
 			String n = Model.scan.nextLine();
