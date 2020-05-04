@@ -1,6 +1,5 @@
 package planner.app;
 
-import java.util.Scanner;
 
 public class Menu {
 	
@@ -11,24 +10,24 @@ public class Menu {
 		System.out.println("3. Logout");
 		
 		
-		Scanner scan = new Scanner(System.in);
 		
 		boolean validInput = false;
 		while (validInput == false) {
-			String n = scan.nextLine();
-			if (n.equals("1") || n.toLowerCase().equals("manage employees")) {
+			String n = Model.scan.nextLine();
+			if (n.equals("1")) {
 				validInput = true;
 			} else if (n.equals("2") || n.toLowerCase().equals("my activity")) {
 				validInput = true;
 				activity.displayactivity();
 			} else if (n.equals("3") || n.toLowerCase().equals("logout")) {
+				Employees.displayEmployees();
+			} else if (n.equals("2")) {
 				Model.currentUser = null;
 				Login.displayLogin();
 			} else {
-				System.out.println("Error: input not valid");
+				System.out.println("Error: invalid input");
 			}
 		}
-		System.out.println("Success");
 	}
 }
 
