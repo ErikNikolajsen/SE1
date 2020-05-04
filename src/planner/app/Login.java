@@ -16,8 +16,6 @@ public class Login {
 				}
 			}
 		
-		
-		
 		boolean validInput = false;
 		while (validInput == false) {
 			String n = Model.scan.nextLine();

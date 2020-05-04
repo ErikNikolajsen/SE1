@@ -24,7 +24,6 @@ public class Employees {
 				System.out.println("Error: invalid input");
 			}
 		}
-	
 	}
 	
 	private static void addEmployeeView() {
@@ -40,10 +39,7 @@ public class Employees {
 			addEmployee(name, initials);
 			validInput = true;
 		}
-		
-		
 	}
-	
 	
 	//Controller events
 	private static void addEmployee(String name, String initials) {
