@@ -24,12 +24,13 @@ public class Login {
 	while (x == 0) {
 		String n = scan.nextLine();
 		if (initials.contains(n.toUpperCase())) {
-			System.out.println("Login success");
 			Model.currentUser = n.toUpperCase();
+			x = 1;
 		} else {
 			System.out.println("Login failure");
 		}
 	}
+	Menu.displayMenu();
 	}
 	
 	
