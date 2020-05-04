@@ -32,7 +32,7 @@ public class SQLiteJDBC {
 	                        "(initials    CHAR(4)     PRIMARY KEY     NOT NULL," +
 	                        " name        TEXT                        NOT NULL, " + 
 	                        " leader      BIT                         DEFAULT 0)"; 
-	         //stmt.executeUpdate(sql);
+	         stmt.executeUpdate(sql);
 	         
 	         sql = "CREATE TABLE projects " +
                      "(projectNumber   INT    PRIMARY KEY     NOT NULL," +

@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Login {
 	
-	public static void login() {
+	public static void displayLogin() {
 	System.out.println("Please choose a user:");
 	
 	ArrayList<String> initials = SQLiteJDBC.selectEmployeesInitials();
@@ -20,17 +20,18 @@ public class Login {
 	Scanner scan = new Scanner(System.in);
 	
 	
-	int x = 0;
-	while (x == 0) {
+	boolean validInput = false;
+	while (validInput == false) {
 		String n = scan.nextLine();
 		if (initials.contains(n.toUpperCase())) {
+			validInput = true;
 			Model.currentUser = n.toUpperCase();
-			x = 1;
+			Menu.displayMenu();
 		} else {
 			System.out.println("Login failure");
 		}
 	}
-	Menu.displayMenu();
+	
 	}
 	
 	

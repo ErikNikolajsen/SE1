@@ -7,15 +7,19 @@ public class Menu {
 	static void displayMenu() {
 		System.out.println("Choose menu item:");
 		System.out.println("1. Manage Employees");
+		System.out.println("2. Logout");
 		
 		
 		Scanner scan = new Scanner(System.in);
 		
-		int x = 0;
-		while (x == 0) {
+		boolean validInput = false;
+		while (validInput == false) {
 			String n = scan.nextLine();
 			if (n.equals("1") || n.toLowerCase().equals("manage employees")) {
-				x = 1;
+				validInput = true;
+			} else if (n.equals("2") || n.toLowerCase().equals("logout")) {
+				Model.currentUser = null;
+				Login.displayLogin();
 			} else {
 				System.out.println("Error: input not valid");
 			}
