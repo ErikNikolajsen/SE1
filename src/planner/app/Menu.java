@@ -20,6 +20,7 @@ public class Menu {
 				validInput = true;
 			} else if (n.equals("2") || n.toLowerCase().equals("my activity")) {
 				validInput = true;
+				activity.displayactivity();
 			} else if (n.equals("3") || n.toLowerCase().equals("logout")) {
 				Model.currentUser = null;
 				Login.displayLogin();

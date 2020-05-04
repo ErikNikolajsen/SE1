@@ -2,5 +2,7 @@ package planner.app;
 
 public class activity {
 	
-	static void display
+	static void displayactivity() {
+		System.out.println("Your current activities: ");
+	}
 }
