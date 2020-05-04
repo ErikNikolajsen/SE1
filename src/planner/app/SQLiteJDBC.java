@@ -30,17 +30,15 @@ public class SQLiteJDBC {
 	         stmt = c.createStatement();
 	         String sql = "CREATE TABLE employees" +
 	                        "(initials    CHAR(4)     PRIMARY KEY     NOT NULL," +
-	                        " name        TEXT     NOT NULL, " + 
-	                        " leader      BIT      DEFAULT 0)"; 
-	         stmt.executeUpdate(sql);
+	                        " name        TEXT                        NOT NULL, " + 
+	                        " leader      BIT                         DEFAULT 0)"; 
+	         //stmt.executeUpdate(sql);
 	         
-//	         String sql = "CREATE TABLE developer " +
-//                     "(ID INT PRIMARY KEY     NOT NULL," +
-//                     " NAME           TEXT    NOT NULL, " + 
-//                     " AGE            INT     NOT NULL, " + 
-//                     " ADDRESS        CHAR(50), " + 
-//                     " SALARY         REAL)"; 
-//	         stmt.executeUpdate(sql);
+	         sql = "CREATE TABLE projects " +
+                     "(projectNumber   INT    PRIMARY KEY     NOT NULL," +
+                     " projectName     TEXT                   NOT NULL," + 
+                     " projectLeader   INT)";
+	         stmt.executeUpdate(sql);
 	         
 	         
 	         stmt.close();
@@ -214,9 +212,9 @@ public class SQLiteJDBC {
 	
   public static void main( String args[] ) {
       //connect();
-	  //createTable();
+	  createTable();
 	  //insert();
-	  selectEmployeesInitials();
+	  //selectEmployeesInitials();
 	  //delete();
    }
 }
