@@ -1,55 +1,45 @@
 package planner.app;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
+import java.util.ArrayList;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
 
 public class EmployeesController {
 	
 	// Defining FXML elements
 	@FXML private TextField name;
 	@FXML private TextField initials;
-	
-	// Functions
-	private void addEmployee() {
-		Connection c = null;
-	      Statement stmt = null;
-	      
-	      try {
-	         Class.forName("org.sqlite.JDBC");
-	         c = DriverManager.getConnection("jdbc:sqlite:test.db");
-	         c.setAutoCommit(false);
-	         System.out.println("Opened database successfully");
-
-	         stmt = c.createStatement();
-	         String sql = "INSERT INTO developer (initials,name) " +
-	                        "VALUES ('" + initials.getText() + "', '" + name.getText() + "' );"; 
-	         stmt.executeUpdate(sql);
-
-	         stmt.close();
-	         c.commit();
-	         c.close();
-	      } catch ( Exception e ) {
-	         System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-	         System.exit(0);
-	      }
-	      System.out.println("Records created successfully");
-	}
-	
+	@FXML private Label errors;
 	
 	// Events
 	public void onAddEmployee(ActionEvent event) {
-		System.out.println(name.getText());
-		System.out.println(initials.getText());
-		addEmployee();
-	}
+		
+		// Error if no name is entered
+		if (name.getText().equals("")) {
+			errors.setText("Error: please enter a name");
+		
+		// Error if no initials are entered
+		} else if (initials.getText().equals("")) {
+			errors.setText("Error: please enter a name");
+		
+		// Error if initials are longer than 4 characters
+		} else if (initials.getText().length() > 4) {
+			errors.setText("Error: initials must be less than 4 characters long");
+		
+		// Error if an employee in the database has the same initials
+		} else if (SQLiteJDBC.selectEmployeesInitials().contains(initials.getText())) {
+			errors.setText("Error: initials already exists in the database");
+			
+		// If no errors are found in the inserted data the employee is added to the database as a non-projectLeader
+		} else {
+			String sql = "INSERT INTO employees (initials,name) " +
+                         "VALUES ('" + initials.getText().toUpperCase() + "', '" + name.getText() + "');"; 
 	
+			SQLiteJDBC.createStatement(sql);
+			errors.setText("Succes: the employee " + name.getText() + "was added to the database");
+		}
+	}
 }
