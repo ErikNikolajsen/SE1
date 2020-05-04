@@ -1,7 +1,13 @@
 package planner.app;
 
 import java.util.*;
-
+	/*
+	 * TODO
+	 * Add make leader menu item
+	 * deleteEmployee()
+	 * 	- make error if the user deleted is a leader
+	 * 	- delete all the related activities of the deleted user
+	 */
 public class Employees {
 	
 	public static void displayEmployees() {
