@@ -17,12 +17,12 @@ public class EmployeesController {
 	public void onAddEmployee(ActionEvent event) {
 		
 		// Error if no name is entered
-		if (name.getText().equals("")) {
-			notification.setText("Error: please enter a name");
+		if (name.equals("")) {
+			System.out.println("Error: please enter a name");
 		
 		// Error if no initials are entered
-		} else if (initials.getText().equals("")) {
-			notification.setText("Error: please enter initials");
+		} else if (initials.equals("")) {
+			System.out.println("Error: please enter initials");
 		
 		// Error if initials are longer than 4 characters
 		} else if (initials.getText().length() > 4) {
