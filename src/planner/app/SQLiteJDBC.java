@@ -40,6 +40,13 @@ public class SQLiteJDBC {
                      " projectLeader   INT)";
 	         stmt.executeUpdate(sql);
 	         
+	         sql = "CREATE TABLE activities " +
+                     "(activityName        TEXT    PRIMARY KEY     NOT NULL," +
+                     " expectedMinutes     INT                     NOT NULL," + 
+                     " startTime           TEXT                    NOT NULL," +
+                     " endTime             TEXT                    NOT NULL)";
+	         stmt.executeUpdate(sql);
+	         
 	         
 	         stmt.close();
 	         c.close();
@@ -196,7 +203,7 @@ public class SQLiteJDBC {
 	
   public static void main( String args[] ) {
       //connect();
-	  //createTable();
+	  createTable();
 	  //insert();
 	  //selectEmployeesInitials();
 	  delete();
