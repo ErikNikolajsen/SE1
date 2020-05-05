@@ -5,18 +5,18 @@ import java.util.ArrayList;
 
 public class SQLiteJDBC {
 	
-	public static void connect() {
-	      Connection c = null;
-	      
-	      try {
-	         Class.forName("org.sqlite.JDBC");
-	         c = DriverManager.getConnection("jdbc:sqlite:test.db");
-	      } catch ( Exception e ) {
-	         System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-	         System.exit(0);
-	      }
-	      System.out.println("Opened database successfully");
-	   }
+//	public static void connect() {
+//	      Connection c = null;
+//	      
+//	      try {
+//	         Class.forName("org.sqlite.JDBC");
+//	         c = DriverManager.getConnection("jdbc:sqlite:test.db");
+//	      } catch ( Exception e ) {
+//	         System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+//	         System.exit(0);
+//	      }
+//	      System.out.println("Opened database successfully");
+//	   }
 	
 	public static void createTable() {
 	      Connection c = null;
@@ -40,6 +40,17 @@ public class SQLiteJDBC {
                      " projectLeader   INT)";
 	         stmt.executeUpdate(sql);
 	         
+	         sql = "CREATE TABLE activities " +
+                     "(activityName        TEXT    PRIMARY KEY     NOT NULL," +
+                     " expectedMinutes     INT                     NOT NULL," + 
+                     " startTime           TEXT                    NOT NULL," +
+                     " endTime             TEXT                    NOT NULL)";
+	         stmt.executeUpdate(sql);
+	         
+	         sql = "CREATE TABLE parameters " +
+                     "(serialNumber        INT     DEFAULT 0)";
+	         stmt.executeUpdate(sql);
+	         
 	         
 	         stmt.close();
 	         c.close();
@@ -49,69 +60,7 @@ public class SQLiteJDBC {
 	      }
 	      System.out.println("Table created successfully");
 	   }
-	
-	public static void insert() {
-	      Connection c = null;
-	      Statement stmt = null;
-	      
-	      try {
-	         Class.forName("org.sqlite.JDBC");
-	         c = DriverManager.getConnection("jdbc:sqlite:test.db");
-	         c.setAutoCommit(false);
-	         System.out.println("Opened database successfully");
 
-	         stmt = c.createStatement();
-	         String sql = "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) " +
-	                        "VALUES (1, 'Paul', 32, 'California', 20000.00 );"; 
-	         stmt.executeUpdate(sql);
-
-	         sql = "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) " +
-	                  "VALUES (2, 'Allen', 25, 'Texas', 15000.00 );"; 
-	         stmt.executeUpdate(sql);
-
-	         sql = "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) " +
-	                  "VALUES (3, 'Teddy', 23, 'Norway', 20000.00 );"; 
-	         stmt.executeUpdate(sql);
-
-	         sql = "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) " +
-	                  "VALUES (4, 'Mark', 25, 'Rich-Mond ', 65000.00 );"; 
-	         stmt.executeUpdate(sql);
-
-	         stmt.close();
-	         c.commit();
-	         c.close();
-	      } catch ( Exception e ) {
-	         System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-	         System.exit(0);
-	      }
-	      System.out.println("Records created successfully");
-	   }
-	
-
-	public static void delete() {
-	      Connection c = null;
-	      Statement stmt = null;
-	      
-	      try {
-	         Class.forName("org.sqlite.JDBC");
-	         c = DriverManager.getConnection("jdbc:sqlite:test.db");
-	         c.setAutoCommit(false);
-	         System.out.println("Opened database successfully");
-
-	         stmt = c.createStatement();
-	         String sql = "DELETE from employees where initials='asda';";
-	         stmt.executeUpdate(sql);
-	         c.commit();
-
-	        
-	      stmt.close();
-	      c.close();
-	      } catch ( Exception e ) {
-	         System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-	         System.exit(0);
-	      }
-	      System.out.println("Operation done successfully");
-	   }
 	
 	public static void createStatement(String input) {
 	      Connection c = null;
@@ -133,9 +82,9 @@ public class SQLiteJDBC {
 	   }
 	
 	
-	
 
-	public static ArrayList<String> selectEmployeesInitials() {
+	
+	public static ArrayList<String> selectString(String table, String column) {
 		   ArrayList<String> list = new ArrayList<String>();
 		   Connection c = null;
 		   Statement stmt = null;
@@ -144,10 +93,10 @@ public class SQLiteJDBC {
 		      c = DriverManager.getConnection("jdbc:sqlite:test.db");
 		      c.setAutoCommit(false);
 		      stmt = c.createStatement();
-		      ResultSet rs = stmt.executeQuery( "SELECT * FROM employees;" );
+		      ResultSet rs = stmt.executeQuery("SELECT * FROM " + table + ";");
 		      
 		      while ( rs.next() ) {
-		         list.add(rs.getString("initials"));
+		         list.add(rs.getString(column));
 		      }
 		      
 		      rs.close();
@@ -161,8 +110,8 @@ public class SQLiteJDBC {
 		   return list;
 		  }
 	
-	public static ArrayList<String> selectTest() {
-		   ArrayList<String> list = new ArrayList<String>();
+	public static ArrayList<Integer> selectInt(String table, String column) {
+		   ArrayList<Integer> list = new ArrayList<Integer>();
 		   Connection c = null;
 		   Statement stmt = null;
 		   try {
@@ -170,10 +119,10 @@ public class SQLiteJDBC {
 		      c = DriverManager.getConnection("jdbc:sqlite:test.db");
 		      c.setAutoCommit(false);
 		      stmt = c.createStatement();
-		      ResultSet rs = stmt.executeQuery( "SELECT * FROM employees;" );
+		      ResultSet rs = stmt.executeQuery("SELECT * FROM " + table + ";");
 		      
 		      while ( rs.next() ) {
-		         list.add(rs.getString("initials"));
+		         list.add(rs.getInt(column));
 		      }
 		      
 		      rs.close();
@@ -193,6 +142,7 @@ public class SQLiteJDBC {
 	  //createTable();
 	  //insert();
 	  //selectEmployeesInitials();
-	  delete();
+	  //delete();
+	  //create();
    }
 }
