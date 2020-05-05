@@ -1,5 +1,6 @@
 package planner.app;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class Projects {
@@ -38,14 +39,15 @@ public class Projects {
 	}
 
 	private static void seeProjectsView() {
-		// TODO Auto-generated method stub
-		
+		seeProjectView();
+		displayProjects();
 	}
 	
 	private static void addProjectsView() {
 		System.out.println("Choose project name:");
 		String name = Model.scan.nextLine();
 		addProject(name);
+		displayProjects();
 	}
 	
 	private static void deleteProjectsView() {
@@ -74,11 +76,9 @@ public class Projects {
 		
 		if (name.equals("")) {
 			System.out.println("Error: empty name string");
-			displayProjects();
 		
 		} else if (SQLiteJDBC.selectString("projects", "projectName").contains(name.toLowerCase())) {
 			System.out.println("Error: project already exists in the database");
-			displayProjects();
 		
 		} else {
 			String sql = "INSERT INTO projects (projectNumber, projectName) " +
@@ -88,8 +88,27 @@ public class Projects {
 			System.out.println("Success: the project '" + name + " : " + projectNumber + "' was added to the database");
 			
 			SQLiteJDBC.createStatement("UPDATE parameters SET serialNumber = " + thisSerial + " WHERE serialNumber = " + currentSerial + ";"); //increases serial number in database
-			displayProjects();
+			
 		}
 	}
+	
+	private static void seeProjectView() {
+		ArrayList<Integer> projectNumber = SQLiteJDBC.selectInt("projects", "projectNumber");
+		ArrayList<String> projectName = SQLiteJDBC.selectString("projects", "projectName");
+		ArrayList<String> projectLeader = SQLiteJDBC.selectString("projects", "projectLeader");
+		
+		for (int i = 0 ; i < projectNumber.size() ; i++) {
+			String projectLeaderStatus;
+			if (projectLeader.get(i) == null) {
+				projectLeaderStatus = "No leader";
+			} else {
+				projectLeaderStatus = projectLeader.get(i);
+			}
+			System.out.println(projectNumber.get(i) + " " + projectName.get(i) + " (" + projectLeaderStatus + ")");
+		}
+		
+	}
+	
+	
 	
 }

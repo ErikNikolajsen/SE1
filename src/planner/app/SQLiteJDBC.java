@@ -37,7 +37,7 @@ public class SQLiteJDBC {
 	         sql = "CREATE TABLE projects " +
                      "(projectNumber   INT    PRIMARY KEY     NOT NULL," +
                      " projectName     TEXT                   NOT NULL," + 
-                     " projectLeader   INT)";
+                     " projectLeader   TEXT)";
 	         stmt.executeUpdate(sql);
 	         
 	         sql = "CREATE TABLE activities " +
