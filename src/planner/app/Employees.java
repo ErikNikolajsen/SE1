@@ -19,7 +19,6 @@ public class Employees {
 		System.out.println("4. Exit");
 		
 		
-		
 		boolean validInput = false;
 		while (validInput == false) {
 			String n = Model.scan.nextLine();
@@ -56,7 +55,22 @@ public class Employees {
 		
 		System.out.println("Choose the initials of the employee you wish to delete");
 		initials = Model.scan.nextLine();
-		deleteEmployee(initials);
+		System.out.println("Deleting user: " + initials.toUpperCase());
+		System.out.println("1. Confirm");
+		System.out.println("2. Cancel");
+		
+		boolean validInput = false;
+		while (validInput == false) {
+			String n = Model.scan.nextLine();
+			if (n.equals("1")) {
+				deleteEmployee(initials);
+				validInput = true;
+			} else if (n.contentEquals("2")){
+				validInput = true;
+			} else {
+				System.out.println("Error: invalid input");
+			}
+		}
 		displayEmployees();
 	}
 	

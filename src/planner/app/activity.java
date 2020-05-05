@@ -25,6 +25,7 @@ public class activity {
 				System.out.println("Error: invalid input");
 			}
 		}
+		System.out.println("Nice");
 	}
 	
 	static void displayMyActivity() {
