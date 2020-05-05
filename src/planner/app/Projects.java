@@ -45,8 +45,20 @@ public class Projects {
 	
 	private static void addProjectsView() {
 		System.out.println("Choose project name:");
-		String name = Model.scan.nextLine();
-		addProject(name);
+		String projectName = Model.scan.nextLine();
+		
+		ArrayList<String> nonLeaderEmployees = SQLiteJDBC.selectString("employees WHERE leader IS 0", "initials");
+		System.out.print("Non-leaders: ");
+		for (int i = 0 ; i < nonLeaderEmployees.size() ; i++) {
+			if (i != nonLeaderEmployees.size()-1) {
+				System.out.print(nonLeaderEmployees.get(i) + ", ");
+			} else {
+				System.out.println(nonLeaderEmployees.get(i));
+			}
+		}
+		System.out.println("Choose initials of project leader:");
+		String leaderInitials = Model.scan.nextLine();
+		addProject(projectName, leaderInitials);
 		displayProjects();
 	}
 	
@@ -75,7 +87,7 @@ public class Projects {
 	}
 	
 	// Controller events
-	private static void addProject(String name) {
+	private static void addProject(String name, String initials) {
 		String year = Integer.toString(Calendar.getInstance().get(Calendar.YEAR));
 		String abbreviatedYear = year.substring(year.length()-2);
 		int currentSerial = SQLiteJDBC.selectInt("parameters", "serialNumber").get(0);
@@ -99,9 +111,13 @@ public class Projects {
 		} else if (SQLiteJDBC.selectString("projects", "projectName").contains(name.toLowerCase())) {
 			System.out.println("Error: project already exists in the database");
 		
+		} else if (!SQLiteJDBC.selectString("employees WHERE leader IS 0", "initials").contains(initials.toUpperCase())) {
+			System.out.println("Error: invalid employeer initials");
 		} else {
-			String sql = "INSERT INTO projects (projectNumber, projectName) " +
-                      "VALUES ('" + projectNumber + "', '" + name.toLowerCase() + "');"; 
+			String sql = "INSERT INTO projects (projectNumber, projectName, projectLeader) " +
+                      "VALUES ('" + projectNumber + "', '" + name.toLowerCase() + "', '" + initials.toUpperCase() + "');";
+			
+			SQLiteJDBC.createStatement("UPDATE employees SET leader = 1 WHERE initials = '" + initials.toUpperCase() + "';");
 	
 			SQLiteJDBC.createStatement(sql);
 			System.out.println("Success: the project '" + name + " : " + projectNumber + "' was added to the database");
