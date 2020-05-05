@@ -43,7 +43,7 @@ public class Projects {
 	}
 	
 	private static void addProjectsView() {
-		System.out.println("Choose project name");
+		System.out.println("Choose project name:");
 		String name = Model.scan.nextLine();
 		addProject(name);
 	}
@@ -56,29 +56,39 @@ public class Projects {
 	// Controller events
 	private static void addProject(String name) {
 		String year = Integer.toString(Calendar.getInstance().get(Calendar.YEAR));
-		String abbreviatedYear = Integer.toString(year.charAt(-2)) + Integer.toString(year.charAt(-1));
+		String abbreviatedYear = year.substring(year.length()-2);
+		int currentSerial = SQLiteJDBC.selectInt("parameters", "serialNumber").get(0);
+		int thisSerial = currentSerial+1;
+		String serialNumber = Integer.toString(thisSerial);
+		if (serialNumber.length() == 1) {
+			serialNumber = "000" + serialNumber;
+		} else if (serialNumber.length() == 2) {
+			serialNumber = "00" + serialNumber;
+		} else if (serialNumber.length() == 3) {
+			serialNumber = "0" + serialNumber;
+		} else if (serialNumber.length() != 4) {
+			System.out.println("Error: the database cannot contain more projects");
+			displayProjects();
+		}
+		String projectNumber = abbreviatedYear + serialNumber;
 		
-		
-		
-		
-		// Error if no name is entered
 		if (name.equals("")) {
 			System.out.println("Error: empty name string");
+			displayProjects();
 		
-		// Error if an employee in the database has the same initials
-		} else if (SQLiteJDBC.selectEmployeesInitials().contains(initials.toUpperCase())) {
-			System.out.println("Error: initials already exists in the database");
-			
-		// If no errors are found in the inserted data the employee is added to the database as a non-projectLeader
+		} else if (SQLiteJDBC.selectString("projects", "projectName").contains(name.toLowerCase())) {
+			System.out.println("Error: project already exists in the database");
+			displayProjects();
+		
 		} else {
-			
-
-			
-			String sql = "INSERT INTO employees (initials,name) " +
-                      "VALUES ('" + initials.toUpperCase() + "', '" + name + "');"; 
+			String sql = "INSERT INTO projects (projectNumber, projectName) " +
+                      "VALUES ('" + projectNumber + "', '" + name.toLowerCase() + "');"; 
 	
 			SQLiteJDBC.createStatement(sql);
-			System.out.println("Success: the employee " + initials.toUpperCase() + " was added to the database");
+			System.out.println("Success: the project '" + name + " : " + projectNumber + "' was added to the database");
+			
+			SQLiteJDBC.createStatement("UPDATE parameters SET serialNumber = " + thisSerial + " WHERE serialNumber = " + currentSerial + ";"); //increases serial number in database
+			displayProjects();
 		}
 	}
 	
