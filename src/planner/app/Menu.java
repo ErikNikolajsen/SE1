@@ -12,13 +12,13 @@ public class Menu {
 		boolean validInput = false;
 		while (validInput == false) {
 			String n = Model.scan.nextLine();
-			if (n.equals("1") || n.toLowerCase().equals("manage employees")) {
+			if (n.equals("1")) {
 				Employees.displayEmployees();
 				validInput = true;
-			} else if (n.equals("2") || n.toLowerCase().equals("my activity")) {
+			} else if (n.equals("2")) {
 				validInput = true;
 				activity.displayactivity();
-			} else if (n.equals("3") || n.toLowerCase().equals("logout")) {
+			} else if (n.equals("3")) {
 				Model.currentUser = null;
 				Login.displayLogin();
 			} else {

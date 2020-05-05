@@ -12,13 +12,13 @@ public class activity {
 		boolean validInput = false;
 		while (validInput == false) {
 			String n = Model.scan.nextLine();
-			if (n.equals("1") || n.toLowerCase().equals("current activity") || n.toLowerCase().equals("current activity information")) {
+			if (n.equals("1")) {
 				validInput = true;
-			} else if (n.equals("2") || n.toLowerCase().equals("register hours")) {
+			} else if (n.equals("2")) {
 				validInput = true;
-			} else if (n.equals("3") || n.toLowerCase().equals("request assistance")){
+			} else if (n.equals("3")){
 				validInput = true;
-			} else if (n.equals("4") || n.toLowerCase().equals("exit")) {
+			} else if (n.equals("4")) {
 				validInput = true;
 				Menu.displayMenu();
 			} else {
