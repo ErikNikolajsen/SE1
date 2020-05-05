@@ -14,9 +14,6 @@ Scenario: User adds an employee to the database
 	Then the administrator login succeeds
 	And the adminstrator is logged in
 
-
-
-	
 Scenario: Administrator can login
 	Given that the administrator is not logged in
 	And the password is "adminadmin"
@@ -28,10 +25,6 @@ Scenario: Administrator has the wrong password
 	And the password is "wrong password"
 	Then the administrator login fails
 	And the administrator is not logged in
-
-	
-	
-	
 	
 Feature: Create employee
     Description: employees for the company is created
