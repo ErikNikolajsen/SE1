@@ -51,8 +51,27 @@ public class Projects {
 	}
 	
 	private static void deleteProjectsView() {
-		// TODO Auto-generated method stub
+		String number;
 		
+		System.out.println("Choose the project-number of the project you wish to delete");
+		number = Model.scan.nextLine();
+		System.out.println("Deleting project: " + number.toUpperCase());
+		System.out.println("1. Confirm");
+		System.out.println("2. Cancel");
+		
+		boolean validInput = false;
+		while (validInput == false) {
+			String n = Model.scan.nextLine();
+			if (n.equals("1")) {
+				deleteProject(number);
+				validInput = true;
+			} else if (n.contentEquals("2")){
+				validInput = true;
+			} else {
+				System.out.println("Error: invalid input");
+			}
+		}
+		displayProjects();
 	}
 	
 	// Controller events
@@ -107,6 +126,17 @@ public class Projects {
 			System.out.println(projectNumber.get(i) + " " + projectName.get(i) + " (" + projectLeaderStatus + ")");
 		}
 		
+	}
+	
+	private static void deleteProject(String number) {
+		if (!SQLiteJDBC.selectString("projects", "projectNumber").contains(number)) {
+			System.out.println("Error: no project with that project-number exists in the database");
+		} else {
+			String sql = "DELETE FROM projects WHERE projectNumber = '" + number + "';";
+			
+			SQLiteJDBC.createStatement(sql);
+			System.out.println("Success: the project " + number + " was deleted from the database");
+		}
 	}
 	
 	

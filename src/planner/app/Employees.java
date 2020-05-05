@@ -12,8 +12,6 @@ import java.util.*;
 public class Employees {
 	
 	public static void displayEmployees() {
-		System.out.println("");
-		System.out.println("Manage Employees");
 		System.out.println("Choose menu item:");
 		System.out.println("1. See employees");
 		System.out.println("2. Add employee");
@@ -92,7 +90,7 @@ public class Employees {
 			System.out.println("Error: initials must be less than 4 characters long");
 		
 		// Error if an employee in the database has the same initials
-		} else if (SQLiteJDBC.selectEmployeesInitials().contains(initials.toUpperCase())) {
+		} else if (SQLiteJDBC.selectString("employees", "initials").contains(initials.toUpperCase())) {
 			System.out.println("Error: initials already exists in the database");
 			
 		// If no errors are found in the inserted data the employee is added to the database as a non-projectLeader
@@ -106,7 +104,7 @@ public class Employees {
 	}
 	
 	private static void deleteEmployee(String initials) {
-		if (!SQLiteJDBC.selectEmployeesInitials().contains(initials.toUpperCase())) {
+		if (!SQLiteJDBC.selectString("employees", "initials").contains(initials.toUpperCase())) {
 			System.out.println("Error: no employee with those initials exists in the database");
 		} else if (initials.toUpperCase().equals(Model.currentUser)) {
 			System.out.println("Error: it is not possible to delete yourself");
@@ -120,7 +118,7 @@ public class Employees {
 	
 	private static void seeEmployees() {
 		System.out.println("Current users in database: ");
-		ArrayList<String> initials = SQLiteJDBC.selectEmployeesInitials();
+		ArrayList<String> initials = SQLiteJDBC.selectString("employees", "initials");
 		for (int i = 0 ; i < initials.size() ; i++) {
 			if (i == initials.size()-1) {
 				System.out.print(initials.get(i) + "\n");
