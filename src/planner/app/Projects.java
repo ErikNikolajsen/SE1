@@ -14,8 +14,7 @@ public class Projects {
 		System.out.println("3. Delete projects");
 		System.out.println("4. Exit");
 		
-		
-		
+				
 		boolean validInput = false;
 		while (validInput == false) {
 			String n = Model.scan.nextLine();
