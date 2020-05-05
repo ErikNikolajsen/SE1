@@ -10,7 +10,8 @@ public class Menu {
 		System.out.println("1. Manage Employees");
 		System.out.println("2. Manage Projects");
 		System.out.println("3. My Activities");
-		System.out.println("4. Logout");
+		System.out.println("4. Project Leader Menu");
+		System.out.println("5. Logout");
 		
 		boolean validInput = false;
 		while (validInput == false) {
@@ -24,7 +25,10 @@ public class Menu {
 			} else if (n.equals("3")) {
 				validInput = true;
 				activity.displayactivity();
-			} else if (n.equals("4") || n.toLowerCase().equals("logout")) {
+			} else if (n.equals("4")) {
+				validInput = true;
+				projektleder.displayleader();
+			} else if (n.equals("5") || n.toLowerCase().equals("logout")) {
 				Model.currentUser = null;
 				Login.displayLogin();
 			} else {
