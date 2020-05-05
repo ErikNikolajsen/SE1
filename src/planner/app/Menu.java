@@ -4,10 +4,12 @@ package planner.app;
 public class Menu {
 	
 	static void displayMenu() {
+		System.out.println("");
+		System.out.println("Welcome to the main screen!");
 		System.out.println("Choose menu item:");
 		System.out.println("1. Manage Employees");
 		System.out.println("2. Manage Projects");
-		System.out.println("3. My Activity");
+		System.out.println("3. My Activities");
 		System.out.println("4. Logout");
 		
 		boolean validInput = false;

@@ -6,6 +6,8 @@ import java.util.Calendar;
 public class Projects {
 	
 	public static void displayProjects() {
+		System.out.println("");
+		System.out.println("Manage Projects");
 		System.out.println("Choose menu item:");
 		System.out.println("1. See projects");
 		System.out.println("2. Add projects");

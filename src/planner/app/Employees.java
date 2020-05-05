@@ -12,6 +12,8 @@ import java.util.*;
 public class Employees {
 	
 	public static void displayEmployees() {
+		System.out.println("");
+		System.out.println("Manage Employees");
 		System.out.println("Choose menu item:");
 		System.out.println("1. See employees");
 		System.out.println("2. Add employee");
