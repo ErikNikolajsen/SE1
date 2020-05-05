@@ -31,7 +31,7 @@ public class SQLiteJDBC {
 	         String sql = "CREATE TABLE employees" +
 	                        "(initials    CHAR(4)     PRIMARY KEY     NOT NULL," +
 	                        " name        TEXT                        NOT NULL, " + 
-	                        " leader      BIT                         DEFAULT 0)"; 
+	                        " leader      INT                         DEFAULT 0)"; 
 	         stmt.executeUpdate(sql);
 	         
 	         sql = "CREATE TABLE projects " +
