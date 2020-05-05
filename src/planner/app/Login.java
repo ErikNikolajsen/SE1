@@ -16,8 +16,6 @@ public class Login {
 				}
 			}
 		
-		
-		
 		boolean validInput = false;
 		while (validInput == false) {
 			String n = Model.scan.nextLine();
@@ -29,8 +27,5 @@ public class Login {
 				System.out.println("Error: invalid input");
 			}
 		}
-	
 	}
-	
-	
 }

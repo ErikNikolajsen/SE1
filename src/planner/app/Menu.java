@@ -9,19 +9,16 @@ public class Menu {
 		System.out.println("2. My Activity");
 		System.out.println("3. Logout");
 		
-		
-		
 		boolean validInput = false;
 		while (validInput == false) {
 			String n = Model.scan.nextLine();
-			if (n.equals("1")) {
+			if (n.equals("1") || n.toLowerCase().equals("manage employees")) {
+				Employees.displayEmployees();
 				validInput = true;
 			} else if (n.equals("2") || n.toLowerCase().equals("my activity")) {
 				validInput = true;
 				activity.displayactivity();
 			} else if (n.equals("3") || n.toLowerCase().equals("logout")) {
-				Employees.displayEmployees();
-			} else if (n.equals("2")) {
 				Model.currentUser = null;
 				Login.displayLogin();
 			} else {
