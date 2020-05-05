@@ -3,6 +3,7 @@ package planner.app;
 import java.util.*;
 	/*
 	 * TODO
+	 * Add see employees
 	 * Add make leader menu item
 	 * deleteEmployee()
 	 * 	- make error if the user deleted is a leader
@@ -12,9 +13,10 @@ public class Employees {
 	
 	public static void displayEmployees() {
 		System.out.println("Choose menu item:");
-		System.out.println("1. Add employee");
-		System.out.println("2. Delete employee");
-		System.out.println("3. Exit");
+		System.out.println("1. See employees");
+		System.out.println("2. Add employee");
+		System.out.println("3. Delete employee");
+		System.out.println("4. Exit");
 		
 		
 		
@@ -23,11 +25,14 @@ public class Employees {
 			String n = Model.scan.nextLine();
 			if (n.equals("1")) {
 				validInput = true;
-				addEmployeeView();
+				seeEmployees();
 			} else if (n.equals("2")) {
 				validInput = true;
-				deleteEmployeeView();
+				addEmployeeView();
 			} else if (n.equals("3")) {
+				validInput = true;
+				deleteEmployeeView();
+			} else if (n.equals("4")) {
 				validInput = true;
 				Menu.displayMenu();
 			} else {
@@ -98,6 +103,10 @@ public class Employees {
 			SQLiteJDBC.createStatement(sql);
 			System.out.println("Success: the employee " + initials.toUpperCase() + " was deleted from the database");
 		}
+	}
+	
+	private static void seeEmployees() {
+		
 	}
 }
 
