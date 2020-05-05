@@ -1,5 +1,7 @@
 package planner.app;
 
+import java.util.Calendar;
+
 public class Projects {
 	
 	public static void displayProjects() {
@@ -39,8 +41,9 @@ public class Projects {
 	}
 	
 	private static void addProjectsView() {
-		// TODO Auto-generated method stub
-		
+		System.out.println("Choose project name");
+		String name = Model.scan.nextLine();
+		addProject(name);
 	}
 	
 	private static void deleteProjectsView() {
@@ -49,6 +52,32 @@ public class Projects {
 	}
 	
 	// Controller events
+	private static void addProject(String name) {
+		String year = Integer.toString(Calendar.getInstance().get(Calendar.YEAR));
+		String abbreviatedYear = Integer.toString(year.charAt(-2)) + Integer.toString(year.charAt(-1));
+		
+		
+		
+		
+		// Error if no name is entered
+		if (name.equals("")) {
+			System.out.println("Error: empty name string");
+		
+		// Error if an employee in the database has the same initials
+		} else if (SQLiteJDBC.selectEmployeesInitials().contains(initials.toUpperCase())) {
+			System.out.println("Error: initials already exists in the database");
+			
+		// If no errors are found in the inserted data the employee is added to the database as a non-projectLeader
+		} else {
+			
+
+			
+			String sql = "INSERT INTO employees (initials,name) " +
+                      "VALUES ('" + initials.toUpperCase() + "', '" + name + "');"; 
 	
+			SQLiteJDBC.createStatement(sql);
+			System.out.println("Success: the employee " + initials.toUpperCase() + " was added to the database");
+		}
+	}
 	
 }

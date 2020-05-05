@@ -43,13 +43,10 @@ public class Employees {
 	}
 	
 	private static void addEmployeeView() {
-		String name;
-		String initials;
-		
-		System.out.println("Choose name");
-		name = Model.scan.nextLine();
-		System.out.println("Choose initials");
-		initials = Model.scan.nextLine();
+		System.out.println("Choose employee name");
+		String name = Model.scan.nextLine();
+		System.out.println("Choose employee initials");
+		String initials = Model.scan.nextLine();
 		addEmployee(name, initials);
 		displayEmployees();
 	}
