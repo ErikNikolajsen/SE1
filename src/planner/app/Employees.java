@@ -110,26 +110,15 @@ public class Employees {
 	}
 	
 	private static void seeEmployees() {
-		System.out.println("Current users in database: ");
+		System.out.println("Current employees in database: ");
 		ArrayList<String> initials = SQLiteJDBC.selectString("employees", "initials");
-		for (int i = 0 ; i < initials.size() ; i++) {
-			if (i == initials.size()-1) {
-				System.out.print(initials.get(i) + "\n");
-			} else {
-				System.out.print(initials.get(i) + ", ");
-			}
-		}
-		System.out.println("1. Exit");
+		ArrayList<String> names = SQLiteJDBC.selectString("employees", "name");
 		
-		boolean validInput = false;
-		while (validInput == false) {
-			String n = Model.scan.nextLine();
-			if (n.equals("1")) {
-				Employees.displayEmployees();
-			} else {
-				System.out.println("Error: invalid input");
-			}
+		for (int i = 0 ; i < initials.size() ; i++) {
+			System.out.format("%-6s%1s%n", initials.get(i),  names.get(i));
 		}
+		System.out.println();
+		Employees.displayEmployees();
 	}
 }
 

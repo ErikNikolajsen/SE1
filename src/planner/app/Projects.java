@@ -130,7 +130,8 @@ public class Projects {
 		ArrayList<Integer> projectNumber = SQLiteJDBC.selectInt("projects", "projectNumber");
 		ArrayList<String> projectName = SQLiteJDBC.selectString("projects", "projectName");
 		ArrayList<String> projectLeader = SQLiteJDBC.selectString("projects", "projectLeader");
-		
+		System.out.println("Current projects in the database:\n");
+		System.out.format("%-7s %-12s %1s %n", "Number", "Leader", "Name");
 		for (int i = 0 ; i < projectNumber.size() ; i++) {
 			String projectLeaderStatus;
 			if (projectLeader.get(i) == null) {
@@ -138,19 +139,24 @@ public class Projects {
 			} else {
 				projectLeaderStatus = projectLeader.get(i);
 			}
-			System.out.println(projectNumber.get(i) + " " + projectName.get(i) + " (" + projectLeaderStatus + ")");
+			//System.out.println(projectNumber.get(i) + " " + projectName.get(i) + " (" + projectLeaderStatus + ")");
+			System.out.format("%-7s %-12s %1s %n",projectNumber.get(i), "(" + projectLeaderStatus + ")",projectName.get(i));
 		}
-		
 	}
 	
 	private static void deleteProject(String number) {
 		if (!SQLiteJDBC.selectString("projects", "projectNumber").contains(number)) {
 			System.out.println("Error: no project with that project-number exists in the database");
 		} else {
-			String sql = "DELETE FROM projects WHERE projectNumber = '" + number + "';";
+			//delete leader status of the project-leader
+			ArrayList<String> projectLeader = SQLiteJDBC.selectString("projects WHERE projectNumber = " + number , "projectLeader" );
+			SQLiteJDBC.createStatement("UPDATE employees SET leader = 0 WHERE initials = '" + projectLeader.get(0) + "';");
 			
+			String sql = "DELETE FROM projects WHERE projectNumber = '" + number + "';";
 			SQLiteJDBC.createStatement(sql);
 			System.out.println("Success: the project " + number + " was deleted from the database");
+			
+			
 		}
 	}
 	
