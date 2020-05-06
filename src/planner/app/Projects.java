@@ -151,7 +151,7 @@ public class Projects {
 			
 			String sql = "DELETE FROM projects WHERE projectNumber = '" + number + "';";
 			SQLiteJDBC.createStatement(sql);
-			System.out.println("Success: the project " + number + " was deleted from the database");
+			System.out.println("Success: the project '" + number + "' was deleted from the database");
 			
 		}
 	}

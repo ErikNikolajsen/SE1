@@ -36,7 +36,7 @@ public class ProjectLeader {
 	
 	public static void displayProjectLeader() {
 		System.out.println("");
-		System.out.println("Project: " + openedProject);
+		System.out.println("Project: " + openedProject + " - " + SQLiteJDBC.selectString("projects WHERE projectNumber = " + openedProject, "projectName").get(0));
 		System.out.println("Project Leader Menu");
 		System.out.println("Choose menu item:");
 		System.out.println("1. See Activities");
@@ -113,9 +113,12 @@ public class ProjectLeader {
 	}
 	
 	public static void deleteActivityView() {
-		
+		System.out.println("Choose the activity you wish to delete");
+		String activity = Model.scan.nextLine();
+		deleteActivity(activity);
+		displayProjectLeader();
 	}
-	
+
 	public static void displayJournalView() {
 		
 	}
@@ -170,7 +173,16 @@ public class ProjectLeader {
 		for (int i = 0 ; i < activityName.size() ; i++) {
 			System.out.format("%-35s %-12s %-11s %-11s %n",activityName.get(i), expectedMinutes.get(i), startTime.get(i), endTime.get(i));
 		}
-		
+	}
+	
+	private static void deleteActivity(String activity) {
+		if (!SQLiteJDBC.selectString("activities", "activityName").contains(activity)) {
+			System.out.println("Error: no activity with that name exists in the database");
+		} else {
+			String sql = "DELETE FROM activities WHERE activityName = '" + activity + "';";
+			SQLiteJDBC.createStatement(sql);
+			System.out.println("Success: the activity '" + activity + "' was deleted from the database");
+		}
 	}
 
 }
