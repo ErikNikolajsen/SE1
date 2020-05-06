@@ -1,6 +1,5 @@
 package planner.app;
 
-
 public class Menu {
 	
 	static void displayMenu() {
@@ -37,5 +36,4 @@ public class Menu {
 		}
 	}
 }
-
 
