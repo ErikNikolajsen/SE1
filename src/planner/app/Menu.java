@@ -27,7 +27,7 @@ public class Menu {
 				activity.displayactivity();
 			} else if (n.equals("4")) {
 				validInput = true;
-				projektleder.displayleader();
+				ProjectLeader.displayProjectLeader();
 			} else if (n.equals("5") || n.toLowerCase().equals("logout")) {
 				Model.currentUser = null;
 				Login.displayLogin();
