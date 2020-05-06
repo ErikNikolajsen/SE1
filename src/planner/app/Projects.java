@@ -141,17 +141,21 @@ public class Projects {
 			}
 			System.out.println(projectNumber.get(i) + " " + projectName.get(i) + " (" + projectLeaderStatus + ")");
 		}
-		
 	}
 	
 	private static void deleteProject(String number) {
 		if (!SQLiteJDBC.selectString("projects", "projectNumber").contains(number)) {
 			System.out.println("Error: no project with that project-number exists in the database");
 		} else {
-			String sql = "DELETE FROM projects WHERE projectNumber = '" + number + "';";
+			//delete leader status of the project-leader
+			ArrayList<String> projectLeader = SQLiteJDBC.selectString("projects WHERE projectNumber = " + number , "projectLeader" );
+			SQLiteJDBC.createStatement("UPDATE employees SET leader = 0 WHERE initials = '" + projectLeader.get(0) + "';");
 			
+			String sql = "DELETE FROM projects WHERE projectNumber = '" + number + "';";
 			SQLiteJDBC.createStatement(sql);
 			System.out.println("Success: the project " + number + " was deleted from the database");
+			
+			
 		}
 	}
 	
