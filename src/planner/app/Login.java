@@ -7,7 +7,7 @@ public class Login {
 	public static void displayLogin() {
 		System.out.println("Please choose a user:");
 		
-		ArrayList<String> initials = SQLiteJDBC.selectString("employees", "initials");
+		ArrayList<String> initials = DatabaseAPI.selectString("employees", "initials");
 			for (int i = 0 ; i < initials.size() ; i++) {
 				if (i == initials.size()-1) {
 					System.out.print(initials.get(i) + "\n");

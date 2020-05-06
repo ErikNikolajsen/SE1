@@ -48,7 +48,7 @@ public class Projects {
 		System.out.println("Choose project name:");
 		String projectName = Model.scan.nextLine();
 		
-		ArrayList<String> availableEmployees = SQLiteJDBC.selectString("employees", "initials");
+		ArrayList<String> availableEmployees = DatabaseAPI.selectString("employees", "initials");
 		System.out.print("Employees: ");
 		for (int i = 0 ; i < availableEmployees.size() ; i++) {
 			if (i != availableEmployees.size()-1) {
@@ -91,7 +91,7 @@ public class Projects {
 	private static void addProject(String name, String initials) {
 		String year = Integer.toString(Calendar.getInstance().get(Calendar.YEAR));
 		String abbreviatedYear = year.substring(year.length()-2);
-		int currentSerial = SQLiteJDBC.selectInt("parameters", "serialNumber").get(0);
+		int currentSerial = DatabaseAPI.selectInt("parameters", "serialNumber").get(0);
 		int thisSerial = currentSerial+1;
 		String serialNumber = Integer.toString(thisSerial);
 		if (serialNumber.length() == 1) {
@@ -109,28 +109,28 @@ public class Projects {
 		if (name.equals("")) {
 			System.out.println("Error: empty name string");
 		
-		} else if (SQLiteJDBC.selectString("projects", "projectName").contains(name.toLowerCase())) {
+		} else if (DatabaseAPI.selectString("projects", "projectName").contains(name.toLowerCase())) {
 			System.out.println("Error: project already exists in the database");
 			
-		} else if (!SQLiteJDBC.selectString("employees", "initials").contains(initials.toUpperCase())) {
+		} else if (!DatabaseAPI.selectString("employees", "initials").contains(initials.toUpperCase())) {
 			System.out.println("Error: invalid employeer initials");
 			
 		} else {
 			String sql = "INSERT INTO projects (projectNumber, projectName, projectLeader) " +
                       "VALUES ('" + projectNumber + "', '" + name.toLowerCase() + "', '" + initials.toUpperCase() + "');";
 				
-			SQLiteJDBC.createStatement(sql);
+			DatabaseAPI.createStatement(sql);
 			System.out.println("Success: the project '" + name + " : " + projectNumber + "' was added to the database");
 			
-			SQLiteJDBC.createStatement("UPDATE parameters SET serialNumber = " + thisSerial + " WHERE serialNumber = " + currentSerial + ";"); //increases serial number in database
+			DatabaseAPI.createStatement("UPDATE parameters SET serialNumber = " + thisSerial + " WHERE serialNumber = " + currentSerial + ";"); //increases serial number in database
 			
 		}
 	}
 	
 	private static void seeProjectView() {
-		ArrayList<Integer> projectNumber = SQLiteJDBC.selectInt("projects", "projectNumber");
-		ArrayList<String> projectName = SQLiteJDBC.selectString("projects", "projectName");
-		ArrayList<String> projectLeader = SQLiteJDBC.selectString("projects", "projectLeader");
+		ArrayList<Integer> projectNumber = DatabaseAPI.selectInt("projects", "projectNumber");
+		ArrayList<String> projectName = DatabaseAPI.selectString("projects", "projectName");
+		ArrayList<String> projectLeader = DatabaseAPI.selectString("projects", "projectLeader");
 		System.out.println("Current projects in the database:\n");
 		System.out.format("%-7s %-12s %1s %n", "Number", "Leader", "Name");
 		for (int i = 0 ; i < projectNumber.size() ; i++) {
@@ -145,12 +145,12 @@ public class Projects {
 	}
 	
 	private static void deleteProject(String number) {
-		if (!SQLiteJDBC.selectString("projects", "projectNumber").contains(number)) {
+		if (!DatabaseAPI.selectString("projects", "projectNumber").contains(number)) {
 			System.out.println("Error: no project with that project-number exists in the database");
 		} else {
 			
 			String sql = "DELETE FROM projects WHERE projectNumber = '" + number + "';";
-			SQLiteJDBC.createStatement(sql);
+			DatabaseAPI.createStatement(sql);
 			System.out.println("Success: the project '" + number + "' was deleted from the database");
 			
 		}

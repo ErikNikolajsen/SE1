@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 public class ProjectLeader {
 	
@@ -12,7 +11,7 @@ public class ProjectLeader {
 	private static String openedProject;
 	
 	public static void chooseProject() {
-		usersProjects = SQLiteJDBC.selectString("projects WHERE projectLeader = '" + Model.currentUser + "'", "projectNumber");
+		usersProjects = DatabaseAPI.selectString("projects WHERE projectLeader = '" + Model.currentUser + "'", "projectNumber");
 		openedProject = null;
 		
 		if (usersProjects.size() == 1) {
@@ -36,7 +35,7 @@ public class ProjectLeader {
 	
 	public static void displayProjectLeader() {
 		System.out.println("");
-		System.out.println("Project: " + openedProject + " - " + SQLiteJDBC.selectString("projects WHERE projectNumber = " + openedProject, "projectName").get(0));
+		System.out.println("Project: " + openedProject + " - " + DatabaseAPI.selectString("projects WHERE projectNumber = " + openedProject, "projectName").get(0));
 		System.out.println("Project Leader Menu");
 		System.out.println("Choose menu item:");
 		System.out.println("1. See Activities");
@@ -150,24 +149,24 @@ public class ProjectLeader {
 			System.out.println("Error: activity start-date is after the end-date");
 		
 		// Error if an activity in the database has the same name
-		} else if (SQLiteJDBC.selectString("activities", "activityName").contains(name.toLowerCase())) {
+		} else if (DatabaseAPI.selectString("activities", "activityName").contains(name.toLowerCase())) {
 			System.out.println("Error: activity name already exists in the database");
 			
 		// If no errors are found in the inserted data the employee is added to the database as a non-projectLeader
 		} else {
 			String sql = "INSERT INTO activities (activityName, expectedMinutes, startTime, endTime, project) " +
                       "VALUES ('" + name.toLowerCase() + "', " + expectedMinutes + ", '" + startTime + "', '" + endTime + "', '" + openedProject + "');"; 
-			SQLiteJDBC.createStatement(sql);
+			DatabaseAPI.createStatement(sql);
 			System.out.println("Success: the activity '" + name + "' was added to the database");
 		}
 		
 	}
 	
 	private static void seeActivities() {
-		ArrayList<String> activityName = SQLiteJDBC.selectString("activities WHERE project = " + openedProject, "activityName");
-		ArrayList<Integer> expectedMinutes = SQLiteJDBC.selectInt("activities WHERE project = " + openedProject, "expectedMinutes");
-		ArrayList<String> startTime = SQLiteJDBC.selectString("activities WHERE project = " + openedProject, "startTime");
-		ArrayList<String> endTime = SQLiteJDBC.selectString("activities WHERE project = " + openedProject, "endTime");
+		ArrayList<String> activityName = DatabaseAPI.selectString("activities WHERE project = " + openedProject, "activityName");
+		ArrayList<Integer> expectedMinutes = DatabaseAPI.selectInt("activities WHERE project = " + openedProject, "expectedMinutes");
+		ArrayList<String> startTime = DatabaseAPI.selectString("activities WHERE project = " + openedProject, "startTime");
+		ArrayList<String> endTime = DatabaseAPI.selectString("activities WHERE project = " + openedProject, "endTime");
 		System.out.println("Current activities in the project:\n");
 		System.out.format("%-35s %-12s %-11s %-11s %n", "Name", "Minutes", "Start", "End");
 		for (int i = 0 ; i < activityName.size() ; i++) {
@@ -176,11 +175,11 @@ public class ProjectLeader {
 	}
 	
 	private static void deleteActivity(String activity) {
-		if (!SQLiteJDBC.selectString("activities", "activityName").contains(activity)) {
+		if (!DatabaseAPI.selectString("activities", "activityName").contains(activity)) {
 			System.out.println("Error: no activity with that name exists in the database");
 		} else {
 			String sql = "DELETE FROM activities WHERE activityName = '" + activity + "';";
-			SQLiteJDBC.createStatement(sql);
+			DatabaseAPI.createStatement(sql);
 			System.out.println("Success: the activity '" + activity + "' was deleted from the database");
 		}
 	}

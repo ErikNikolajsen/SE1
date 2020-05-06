@@ -83,7 +83,7 @@ public class Employees {
 			System.out.println("Error: initials must be less than 4 characters long");
 		
 		// Error if an employee in the database has the same initials
-		} else if (SQLiteJDBC.selectString("employees", "initials").contains(initials.toUpperCase())) {
+		} else if (DatabaseAPI.selectString("employees", "initials").contains(initials.toUpperCase())) {
 			System.out.println("Error: initials already exists in the database");
 			
 		// If no errors are found in the inserted data the employee is added to the database as a non-projectLeader
@@ -91,28 +91,28 @@ public class Employees {
 			String sql = "INSERT INTO employees (initials,name) " +
                       "VALUES ('" + initials.toUpperCase() + "', '" + name + "');"; 
 	
-			SQLiteJDBC.createStatement(sql);
+			DatabaseAPI.createStatement(sql);
 			System.out.println("Success: the employee " + initials.toUpperCase() + " was added to the database");
 		}
 	}
 	
 	private static void deleteEmployee(String initials) {
-		if (!SQLiteJDBC.selectString("employees", "initials").contains(initials.toUpperCase())) {
+		if (!DatabaseAPI.selectString("employees", "initials").contains(initials.toUpperCase())) {
 			System.out.println("Error: no employee with those initials exists in the database");
 		} else if (initials.toUpperCase().equals(Model.currentUser)) {
 			System.out.println("Error: it is not possible to delete yourself");
 		} else {
 			String sql = "DELETE FROM employees WHERE initials = '" + initials.toUpperCase() + "';";
 			
-			SQLiteJDBC.createStatement(sql);
+			DatabaseAPI.createStatement(sql);
 			System.out.println("Success: the employee " + initials.toUpperCase() + " was deleted from the database");
 		}
 	}
 	
 	private static void seeEmployees() {
 		System.out.println("Current employees in database: ");
-		ArrayList<String> initials = SQLiteJDBC.selectString("employees", "initials");
-		ArrayList<String> names = SQLiteJDBC.selectString("employees", "name");
+		ArrayList<String> initials = DatabaseAPI.selectString("employees", "initials");
+		ArrayList<String> names = DatabaseAPI.selectString("employees", "name");
 		
 		for (int i = 0 ; i < initials.size() ; i++) {
 			System.out.format("%-6s%1s%n", initials.get(i),  names.get(i));

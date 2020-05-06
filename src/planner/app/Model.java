@@ -1,6 +1,5 @@
 package planner.app;
 
-import java.util.Calendar;
 import java.util.Scanner;
 
 public class Model {

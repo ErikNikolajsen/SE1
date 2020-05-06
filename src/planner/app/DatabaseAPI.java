@@ -1,17 +1,16 @@
 package planner.app;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class SQLiteJDBC {
+public class DatabaseAPI {
 	
 //	public static void connect() {
 //	      Connection c = null;
 //	      
 //	      try {
 //	         Class.forName("org.sqlite.JDBC");
-//	         c = DriverManager.getConnection("jdbc:sqlite:test.db");
+//	         c = DriverManager.getConnection("jdbc:sqlite:SQLiteDatabase.db");
 //	      } catch ( Exception e ) {
 //	         System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 //	         System.exit(0);
@@ -25,7 +24,7 @@ public class SQLiteJDBC {
 	      
 	      try {
 	         Class.forName("org.sqlite.JDBC");
-	         c = DriverManager.getConnection("jdbc:sqlite:test.db");
+	         c = DriverManager.getConnection("jdbc:sqlite:SQLiteDatabase.db");
 	         System.out.println("Opened database successfully");
 
 	         stmt = c.createStatement();
@@ -69,7 +68,7 @@ public class SQLiteJDBC {
 	      
 	      try {
 	         Class.forName("org.sqlite.JDBC");
-	         c = DriverManager.getConnection("jdbc:sqlite:test.db");
+	         c = DriverManager.getConnection("jdbc:sqlite:SQLiteDatabase.db");
 	         c.setAutoCommit(false);
 	         stmt = c.createStatement();
 	         stmt.executeUpdate(input);
@@ -91,7 +90,7 @@ public class SQLiteJDBC {
 		   Statement stmt = null;
 		   try {
 		      Class.forName("org.sqlite.JDBC");
-		      c = DriverManager.getConnection("jdbc:sqlite:test.db");
+		      c = DriverManager.getConnection("jdbc:sqlite:SQLiteDatabase.db");
 		      c.setAutoCommit(false);
 		      stmt = c.createStatement();
 		      ResultSet rs = stmt.executeQuery("SELECT * FROM " + table + ";");
@@ -117,7 +116,7 @@ public class SQLiteJDBC {
 		   Statement stmt = null;
 		   try {
 		      Class.forName("org.sqlite.JDBC");
-		      c = DriverManager.getConnection("jdbc:sqlite:test.db");
+		      c = DriverManager.getConnection("jdbc:sqlite:SQLiteDatabase.db");
 		      c.setAutoCommit(false);
 		      stmt = c.createStatement();
 		      ResultSet rs = stmt.executeQuery("SELECT * FROM " + table + ";");
