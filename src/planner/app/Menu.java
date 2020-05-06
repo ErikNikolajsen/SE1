@@ -26,7 +26,7 @@ public class Menu {
 				activity.displayactivity();
 			} else if (n.equals("4") && SQLiteJDBC.selectInt("projects WHERE projectLeader = '" + Model.currentUser + "'", "projectNumber").size() > 0) {
 				validInput = true;
-				ProjectLeader.displayProjectLeader();
+				ProjectLeader.chooseProject();
 			} else if (n.equals("4") && !(SQLiteJDBC.selectInt("projects WHERE projectLeader = '" + Model.currentUser + "'", "projectNumber").size() > 0)) {
 				System.out.println("Error: you are not a project-leader");
 			} else if (n.equals("5") || n.toLowerCase().equals("logout")) {

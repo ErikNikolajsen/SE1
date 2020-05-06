@@ -8,8 +8,35 @@ import java.util.Date;
 
 public class ProjectLeader {
 	
+	private static ArrayList<String> usersProjects;
+	private static String openedProject;
+	
+	public static void chooseProject() {
+		usersProjects = SQLiteJDBC.selectString("projects WHERE projectLeader = '" + Model.currentUser + "'", "projectNumber");
+		openedProject = null;
+		
+		if (usersProjects.size() == 1) {
+			openedProject = usersProjects.get(0);
+			displayProjectLeader();
+		} else {
+			System.out.println("Choose project name:");
+			for (int i = 0 ; i < usersProjects.size() ; i++) {
+				System.out.println(usersProjects.get(i));
+			}
+			while (true) {
+				String enterProject = Model.scan.nextLine();
+				if (usersProjects.contains(enterProject)) {
+					openedProject = enterProject;
+					displayProjectLeader();
+				}
+			}
+		}
+		
+	}
+	
 	public static void displayProjectLeader() {
 		System.out.println("");
+		System.out.println("Project: " + openedProject);
 		System.out.println("Project Leader Menu");
 		System.out.println("Choose menu item:");
 		System.out.println("1. See Activities");
@@ -125,8 +152,8 @@ public class ProjectLeader {
 			
 		// If no errors are found in the inserted data the employee is added to the database as a non-projectLeader
 		} else {
-			String sql = "INSERT INTO activities (activityName, expectedMinutes, startTime, endTime) " +
-                      "VALUES ('" + name.toLowerCase() + "', " + expectedMinutes + ", '" + startTime + "', '" + endTime + "');"; 
+			String sql = "INSERT INTO activities (activityName, expectedMinutes, startTime, endTime, project) " +
+                      "VALUES ('" + name.toLowerCase() + "', " + expectedMinutes + ", '" + startTime + "', '" + endTime + "', '" + openedProject + "');"; 
 			SQLiteJDBC.createStatement(sql);
 			System.out.println("Success: the activity '" + name + "' was added to the database");
 		}
@@ -134,10 +161,10 @@ public class ProjectLeader {
 	}
 	
 	private static void seeActivities() {
-		ArrayList<String> activityName = SQLiteJDBC.selectString("activities", "activityName");
-		ArrayList<Integer> expectedMinutes = SQLiteJDBC.selectInt("activities", "expectedMinutes");
-		ArrayList<String> startTime = SQLiteJDBC.selectString("activities", "startTime");
-		ArrayList<String> endTime = SQLiteJDBC.selectString("activities", "endTime");
+		ArrayList<String> activityName = SQLiteJDBC.selectString("activities WHERE project = " + openedProject, "activityName");
+		ArrayList<Integer> expectedMinutes = SQLiteJDBC.selectInt("activities WHERE project = " + openedProject, "expectedMinutes");
+		ArrayList<String> startTime = SQLiteJDBC.selectString("activities WHERE project = " + openedProject, "startTime");
+		ArrayList<String> endTime = SQLiteJDBC.selectString("activities WHERE project = " + openedProject, "endTime");
 		System.out.println("Current activities in the project:\n");
 		System.out.format("%-35s %-12s %-11s %-11s %n", "Name", "Minutes", "Start", "End");
 		for (int i = 0 ; i < activityName.size() ; i++) {
@@ -145,6 +172,7 @@ public class ProjectLeader {
 		}
 		
 	}
+
 }
 
 
