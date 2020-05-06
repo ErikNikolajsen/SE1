@@ -8,8 +8,7 @@ public class activity {
 		System.out.println("Choose menu item:");
 		System.out.println("1. Assigned activities");
 		System.out.println("2. Register hours");
-		System.out.println("3. Request Assistance");
-		System.out.println("4. Exit");
+		System.out.println("3. Exit");
 		
 		boolean validInput = false;
 		while (validInput == false) {
@@ -20,8 +19,6 @@ public class activity {
 			} else if (n.equals("2")) {
 				validInput = true;
 			} else if (n.equals("3")){
-				validInput = true;
-			} else if (n.equals("4")) {
 				validInput = true;
 				Menu.displayMenu();
 			} else {

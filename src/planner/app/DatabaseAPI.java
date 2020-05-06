@@ -47,6 +47,21 @@ public class DatabaseAPI {
 	         		 " project             INT                     NOT NULL)";
 	         stmt.executeUpdate(sql);
 	         
+	         sql = "CREATE TABLE realisedTimeslot " +
+                     "(id                  INT   PRIMARY KEY       NOT NULL," +
+                     " employee            TEXT                    NOT NULL," + 
+                     " activity            TEXT                    NOT NULL," +
+                     " spendMinutes        INT                     NOT NULL," +
+	         		 " day                 DATE                    NOT NULL)";
+	         stmt.executeUpdate(sql);
+	         
+	         sql = "CREATE TABLE unrealisedTimeslot " +
+                     "(id                  INT   PRIMARY KEY       NOT NULL," +
+                     " assignedEmployee    TEXT                    NOT NULL," + 
+                     " assignedMinutes     INT                     NOT NULL," +
+	         		 " day                 DATE                    NOT NULL)";
+	         stmt.executeUpdate(sql);
+	         
 	         sql = "CREATE TABLE parameters " +
                      "(serialNumber        INT     DEFAULT 0)";
 	         stmt.executeUpdate(sql);
@@ -61,7 +76,6 @@ public class DatabaseAPI {
 	      System.out.println("Table created successfully");
 	   }
 
-	
 	public static void createStatement(String input) {
 	      Connection c = null;
 	      Statement stmt = null;
@@ -80,9 +94,6 @@ public class DatabaseAPI {
 	         System.exit(0);
 	      }
 	   }
-	
-	
-
 	
 	public static ArrayList<String> selectString(String table, String column) {
 		   ArrayList<String> list = new ArrayList<String>();
@@ -140,7 +151,7 @@ public class DatabaseAPI {
 	
   public static void main( String args[] ) {
       //connect();
-	  //createTable();
+	  createTable();
 	  //insert();
 	  //selectEmployeesInitials();
 	  //delete();

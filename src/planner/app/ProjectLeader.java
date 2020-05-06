@@ -18,9 +18,9 @@ public class ProjectLeader {
 			openedProject = usersProjects.get(0);
 			displayProjectLeader();
 		} else {
-			System.out.println("Choose project name:");
+			System.out.println("Choose project number:");
 			for (int i = 0 ; i < usersProjects.size() ; i++) {
-				System.out.println(usersProjects.get(i));
+				System.out.println(usersProjects.get(i) + " " + DatabaseAPI.selectString("projects WHERE projectNumber = " + usersProjects.get(i), "projectName").get(0));
 			}
 			while (true) {
 				String enterProject = Model.scan.nextLine();
@@ -159,7 +159,6 @@ public class ProjectLeader {
 			DatabaseAPI.createStatement(sql);
 			System.out.println("Success: the activity '" + name + "' was added to the database");
 		}
-		
 	}
 	
 	private static void seeActivities() {
@@ -183,7 +182,8 @@ public class ProjectLeader {
 			System.out.println("Success: the activity '" + activity + "' was deleted from the database");
 		}
 	}
-
+	
+	
 }
 
 
