@@ -26,6 +26,8 @@ public class Projects {
 				addProjectsView();
 			} else if (n.equals("3")) {
 				validInput = true;
+				seeProjectView();
+				System.out.println("");
 				deleteProjectsView();
 			} else if (n.equals("4")) {
 				validInput = true;
@@ -154,7 +156,6 @@ public class Projects {
 			String sql = "DELETE FROM projects WHERE projectNumber = '" + number + "';";
 			SQLiteJDBC.createStatement(sql);
 			System.out.println("Success: the project " + number + " was deleted from the database");
-			
 			
 		}
 	}
