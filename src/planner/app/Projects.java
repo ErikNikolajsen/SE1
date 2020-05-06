@@ -46,13 +46,13 @@ public class Projects {
 		System.out.println("Choose project name:");
 		String projectName = Model.scan.nextLine();
 		
-		ArrayList<String> nonLeaderEmployees = SQLiteJDBC.selectString("employees WHERE leader IS 0", "initials");
-		System.out.print("Non-leaders: ");
-		for (int i = 0 ; i < nonLeaderEmployees.size() ; i++) {
-			if (i != nonLeaderEmployees.size()-1) {
-				System.out.print(nonLeaderEmployees.get(i) + ", ");
+		ArrayList<String> availableEmployees = SQLiteJDBC.selectString("employees", "initials");
+		System.out.print("Employees: ");
+		for (int i = 0 ; i < availableEmployees.size() ; i++) {
+			if (i != availableEmployees.size()-1) {
+				System.out.print(availableEmployees.get(i) + ", ");
 			} else {
-				System.out.println(nonLeaderEmployees.get(i));
+				System.out.println(availableEmployees.get(i));
 			}
 		}
 		System.out.println("Choose initials of project leader:");
@@ -109,15 +109,14 @@ public class Projects {
 		
 		} else if (SQLiteJDBC.selectString("projects", "projectName").contains(name.toLowerCase())) {
 			System.out.println("Error: project already exists in the database");
-		
-		} else if (!SQLiteJDBC.selectString("employees WHERE leader IS 0", "initials").contains(initials.toUpperCase())) {
+			
+		} else if (!SQLiteJDBC.selectString("employees", "initials").contains(initials.toUpperCase())) {
 			System.out.println("Error: invalid employeer initials");
+			
 		} else {
 			String sql = "INSERT INTO projects (projectNumber, projectName, projectLeader) " +
                       "VALUES ('" + projectNumber + "', '" + name.toLowerCase() + "', '" + initials.toUpperCase() + "');";
-			
-			SQLiteJDBC.createStatement("UPDATE employees SET leader = 1 WHERE initials = '" + initials.toUpperCase() + "';");
-	
+				
 			SQLiteJDBC.createStatement(sql);
 			System.out.println("Success: the project '" + name + " : " + projectNumber + "' was added to the database");
 			
@@ -147,9 +146,6 @@ public class Projects {
 		if (!SQLiteJDBC.selectString("projects", "projectNumber").contains(number)) {
 			System.out.println("Error: no project with that project-number exists in the database");
 		} else {
-			//delete leader status of the project-leader
-			ArrayList<String> projectLeader = SQLiteJDBC.selectString("projects WHERE projectNumber = " + number , "projectLeader" );
-			SQLiteJDBC.createStatement("UPDATE employees SET leader = 0 WHERE initials = '" + projectLeader.get(0) + "';");
 			
 			String sql = "DELETE FROM projects WHERE projectNumber = '" + number + "';";
 			SQLiteJDBC.createStatement(sql);
