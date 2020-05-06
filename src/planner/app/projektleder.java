@@ -8,7 +8,7 @@ public class projektleder {
 		System.out.println("Choose menu item:");
 		System.out.println("1. See Activities");
 		System.out.println("2. Create New Activity");
-		System.out.println("3. Delete Existing Activity");
+		System.out.println("3. Delete Activity");
 		System.out.println("4. See Daily Journal");
 		System.out.println("5. Exit");
 		

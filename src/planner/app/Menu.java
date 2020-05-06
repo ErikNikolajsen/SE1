@@ -1,6 +1,5 @@
 package planner.app;
 
-
 public class Menu {
 	
 	static void displayMenu() {
@@ -26,9 +25,13 @@ public class Menu {
 				validInput = true;
 				activity.displayactivity();
 			} else if (n.equals("4")) {
-				validInput = true;
-				projektleder.displayleader();
-			} else if (n.equals("5") || n.toLowerCase().equals("logout")) {
+				if (n.equals("4")) {
+					validInput = true;
+					projektleder.displayleader();
+				}else {
+					System.out.println("You are not a project leader...");
+				}
+			} else if (n.equals("5")) {
 				Model.currentUser = null;
 				Login.displayLogin();
 			} else {
@@ -37,5 +40,4 @@ public class Menu {
 		}
 	}
 }
-
 
