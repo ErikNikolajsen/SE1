@@ -3,7 +3,6 @@ package planner.app;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 public class Main {
 
@@ -45,13 +44,6 @@ public class Main {
 		System.out.println(t);
 		System.out.println(t2);
 		
-		
-//		WeekFields weekFields = WeekFields.of(Locale.getDefault());
-//		LocalDate ldt = LocalDate.now()
-//                .withYear(2020)
-//                .with(weekFields.weekOfYear(), 19)
-//                .with(weekFields.dayOfWeek(), 1);
-		//java.sql.Date sqlDate = java.sql.Date.valueOf( todayLocalDate );
 		
 		Login.displayLogin();
 	}

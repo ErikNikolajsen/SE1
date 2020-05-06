@@ -1,6 +1,7 @@
 package planner.app;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class SQLiteJDBC {
@@ -43,8 +44,9 @@ public class SQLiteJDBC {
 	         sql = "CREATE TABLE activities " +
                      "(activityName        TEXT    PRIMARY KEY     NOT NULL," +
                      " expectedMinutes     INT                     NOT NULL," + 
-                     " startTime           TEXT                    NOT NULL," +
-                     " endTime             TEXT                    NOT NULL)";
+                     " startTime           DATE                    NOT NULL," +
+                     " endTime             DATE                    NOT NULL," +
+	         		 " project             INT                     NOT NULL)";
 	         stmt.executeUpdate(sql);
 	         
 	         sql = "CREATE TABLE parameters " +
@@ -135,6 +137,7 @@ public class SQLiteJDBC {
 		   }
 		   return list;
 		  }
+
 	
 	
   public static void main( String args[] ) {

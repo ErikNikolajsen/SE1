@@ -2,6 +2,7 @@ package planner.app;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -43,6 +44,7 @@ public class ProjectLeader {
 	
 	public static void seeActivitiesView() {
 		seeActivities();
+		displayProjectLeader();
 	}
 	
 	public static void addActivityView() {
@@ -132,7 +134,39 @@ public class ProjectLeader {
 	}
 	
 	private static void seeActivities() {
-		// TODO Auto-generated method stub
+		ArrayList<String> activityName = SQLiteJDBC.selectString("activities", "activityName");
+		ArrayList<Integer> expectedMinutes = SQLiteJDBC.selectInt("activities", "expectedMinutes");
+		ArrayList<String> startTime = SQLiteJDBC.selectString("activities", "startTime");
+		ArrayList<String> endTime = SQLiteJDBC.selectString("activities", "endTime");
+		System.out.println("Current activities in the project:\n");
+		System.out.format("%-35s %-12s %-11s %-11s %n", "Name", "Minutes", "Start", "End");
+		for (int i = 0 ; i < activityName.size() ; i++) {
+			System.out.format("%-35s %-12s %-11s %-11s %n",activityName.get(i), expectedMinutes.get(i), startTime.get(i), endTime.get(i));
+		}
 		
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
