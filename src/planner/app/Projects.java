@@ -139,7 +139,6 @@ public class Projects {
 			} else {
 				projectLeaderStatus = projectLeader.get(i);
 			}
-			//System.out.println(projectNumber.get(i) + " " + projectName.get(i) + " (" + projectLeaderStatus + ")");
 			System.out.format("%-7s %-12s %1s %n",projectNumber.get(i), "(" + projectLeaderStatus + ")",projectName.get(i));
 		}
 	}
