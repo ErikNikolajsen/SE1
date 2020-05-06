@@ -130,7 +130,8 @@ public class Projects {
 		ArrayList<Integer> projectNumber = SQLiteJDBC.selectInt("projects", "projectNumber");
 		ArrayList<String> projectName = SQLiteJDBC.selectString("projects", "projectName");
 		ArrayList<String> projectLeader = SQLiteJDBC.selectString("projects", "projectLeader");
-		
+		System.out.println("Current projects in the database:\n");
+		System.out.format("%-7s %-12s %1s %n", "Number", "Leader", "Name");
 		for (int i = 0 ; i < projectNumber.size() ; i++) {
 			String projectLeaderStatus;
 			if (projectLeader.get(i) == null) {
@@ -138,7 +139,8 @@ public class Projects {
 			} else {
 				projectLeaderStatus = projectLeader.get(i);
 			}
-			System.out.println(projectNumber.get(i) + " " + projectName.get(i) + " (" + projectLeaderStatus + ")");
+			//System.out.println(projectNumber.get(i) + " " + projectName.get(i) + " (" + projectLeaderStatus + ")");
+			System.out.format("%-7s %-12s %1s %n",projectNumber.get(i), "(" + projectLeaderStatus + ")",projectName.get(i));
 		}
 	}
 	
