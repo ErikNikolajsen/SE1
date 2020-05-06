@@ -49,7 +49,7 @@ public class activity {
 	}
 	
 	static void displayRegisterhour() {
-		
+
 	}
 	
 	static void displayReqAssistance() {
