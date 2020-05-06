@@ -24,10 +24,10 @@ public class Menu {
 			} else if (n.equals("3")) {
 				validInput = true;
 				activity.displayactivity();
-			} else if (n.equals("4") && SQLiteJDBC.selectInt("employees WHERE initials = '" + Model.currentUser + "'", "leader").get(0) == 1) {
+			} else if (n.equals("4") && SQLiteJDBC.selectInt("projects WHERE projectLeader = '" + Model.currentUser + "'", "projectNumber").size() > 0) {
 				validInput = true;
 				ProjectLeader.displayProjectLeader();
-			} else if (n.equals("4") && SQLiteJDBC.selectInt("employees WHERE initials = '" + Model.currentUser + "'", "leader").get(0) == 0) {
+			} else if (n.equals("4") && !(SQLiteJDBC.selectInt("projects WHERE projectLeader = '" + Model.currentUser + "'", "projectNumber").size() > 0)) {
 				System.out.println("Error: you are not a project-leader");
 			} else if (n.equals("5") || n.toLowerCase().equals("logout")) {
 				Model.currentUser = null;
