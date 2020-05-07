@@ -61,13 +61,6 @@ public class DatabaseAPI {
                      " activity            INT                     NOT NULL)";
 	         stmt.executeUpdate(sql);
 	         
-//	         sql = "CREATE TABLE unrealisedTimeslot " +
-//                     "(id                  INT   PRIMARY KEY       NOT NULL," +
-//                     " assignedEmployee    TEXT                    NOT NULL," + 
-//                     " assignedMinutes     INT                     NOT NULL," +
-//	         		 " day                 DATE                    NOT NULL)";
-//	         stmt.executeUpdate(sql);
-	         
 	         sql = "CREATE TABLE parameters " +
                      "(serialNumber        INT     DEFAULT 0)";
 	         stmt.executeUpdate(sql);
