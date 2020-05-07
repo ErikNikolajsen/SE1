@@ -14,7 +14,8 @@ public class activity {
 		System.out.println("Choose menu item:");
 		System.out.println("1. Assigned activities");
 		System.out.println("2. Register hours");
-		System.out.println("3. Exit");
+		System.out.println("3. See work log");
+		System.out.println("4. Exit");
 		
 		boolean validInput = false;
 		while (validInput == false) {
@@ -27,11 +28,19 @@ public class activity {
 				registerHoursView();
 			} else if (n.equals("3")){
 				validInput = true;
+				worklogView();
+			} else if (n.equals("4")){
+				validInput = true;
 				Menu.displayMenu();
 			} else {
 				System.out.println("Error: invalid input");
 			}
 		}
+	}
+
+	private static void worklogView() {
+		seeWorklog();
+		displayActivity();
 	}
 
 	private static void myActivityView() {
@@ -116,6 +125,17 @@ public class activity {
 			System.out.println("Success: the timeslot was successfully was added to the database");
 		}
 		
+	}
+	
+	private static void seeWorklog() {
+		ArrayList<String> date = DatabaseAPI.selectString("timeslot WHERE employee = '" + Model.currentUser + "' ORDER BY day DESC", "day");
+		ArrayList<Integer> spendMinutes = DatabaseAPI.selectInt("timeslot WHERE employee = '" + Model.currentUser + "' ORDER BY day DESC", "spendMinutes");
+		ArrayList<Integer> activity = DatabaseAPI.selectInt("timeslot WHERE employee = '" + Model.currentUser + "' ORDER BY day DESC", "activity");
+		
+		System.out.format("%-9s %-11s %s %n", "Activity", "Spend time", "Date");
+		for (int i = 0 ; i < date.size() ; i++) {
+			System.out.format("%-9s %-11s %s %n", activity.get(i), spendMinutes.get(i), date.get(i));
+		}
 	}
 	
 }
