@@ -207,10 +207,20 @@ public class ProjectLeader {
 		ArrayList<Integer> expectedMinutes = DatabaseAPI.selectInt("activities WHERE project = " + openedProject, "expectedMinutes");
 		ArrayList<String> startTime = DatabaseAPI.selectString("activities WHERE project = " + openedProject, "startTime");
 		ArrayList<String> endTime = DatabaseAPI.selectString("activities WHERE project = " + openedProject, "endTime");
+		ArrayList<Integer> nettoSpendMinutes = new ArrayList<Integer>();
 		TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear(); 
 		
+		for (int p = 0 ; p < id.size() ; p++) {
+		int nettoSpendMinutesTemp = 0;
+		ArrayList<Integer> allSpendMinutes = DatabaseAPI.selectInt("timeslot WHERE activity = " + id.get(p), "spendMinutes");
+		for (int n = 0 ; n < allSpendMinutes.size() ; n++) {
+			nettoSpendMinutesTemp = nettoSpendMinutesTemp + allSpendMinutes.get(n);
+		}
+		nettoSpendMinutes.add(nettoSpendMinutesTemp);
+		}
+		
 		System.out.println("Current activities in the project:\n");
-		System.out.format("%-4s %-35s %-12s %-11s %-11s %s %n", "ID", "Name", "Minutes", "Start", "End", "");
+		System.out.format("%-4s %-35s %-15s %-11s %-11s %-11s  %s %n", "ID", "Name", "Allocated time", "Spend time", "Start", "End", "Allocated employees");
 		for (int i = 0 ; i < activityName.size() ; i++) {
 			ArrayList<String> associatedEmployees = DatabaseAPI.selectString("allocatedEmployees WHERE activity = " + id.get(i), "employee");
 			String allocatedEmployees = "";
@@ -218,7 +228,7 @@ public class ProjectLeader {
 				allocatedEmployees = allocatedEmployees + " " + associatedEmployees.get(n);  
 			}
 			
-			System.out.format("%-4s %-35s %-12s %-11s %-11s %s %n", id.get(i), activityName.get(i), expectedMinutes.get(i), LocalDate.parse(startTime.get(i)).getYear() + "-W" + LocalDate.parse(startTime.get(i)).get(woy), LocalDate.parse(endTime.get(i)).getYear() + "-W" + LocalDate.parse(endTime.get(i)).get(woy), allocatedEmployees);
+			System.out.format("%-4s %-35s %-15s %-11s %-11s %-11s %s %n", id.get(i), activityName.get(i), expectedMinutes.get(i), nettoSpendMinutes.get(i), LocalDate.parse(startTime.get(i)).getYear() + "-W" + LocalDate.parse(startTime.get(i)).get(woy), LocalDate.parse(endTime.get(i)).getYear() + "-W" + LocalDate.parse(endTime.get(i)).get(woy), allocatedEmployees);
 		}
 	}
 	
