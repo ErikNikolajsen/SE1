@@ -40,14 +40,15 @@ public class DatabaseAPI {
 	         stmt.executeUpdate(sql);
 	         
 	         sql = "CREATE TABLE activities " +
-                     "(activityName        TEXT    PRIMARY KEY     NOT NULL," +
+                     "(id                  INT    PRIMARY KEY      NOT NULL," +
+                     " activityName        TEXT                    NOT NULL," +
                      " expectedMinutes     INT                     NOT NULL," + 
                      " startTime           DATE                    NOT NULL," +
                      " endTime             DATE                    NOT NULL," +
 	         		 " project             INT                     NOT NULL)";
 	         stmt.executeUpdate(sql);
 	         
-	         sql = "CREATE TABLE realisedTimeslot " +
+	         sql = "CREATE TABLE timeslot " +
                      "(id                  INT   PRIMARY KEY       NOT NULL," +
                      " employee            TEXT                    NOT NULL," + 
                      " activity            TEXT                    NOT NULL," +
@@ -55,12 +56,17 @@ public class DatabaseAPI {
 	         		 " day                 DATE                    NOT NULL)";
 	         stmt.executeUpdate(sql);
 	         
-	         sql = "CREATE TABLE unrealisedTimeslot " +
-                     "(id                  INT   PRIMARY KEY       NOT NULL," +
-                     " assignedEmployee    TEXT                    NOT NULL," + 
-                     " assignedMinutes     INT                     NOT NULL," +
-	         		 " day                 DATE                    NOT NULL)";
+	         sql = "CREATE TABLE allocatedEmployees " +
+                     "(employee            TEXT                    NOT NULL," + 
+                     " activity            INT                     NOT NULL)";
 	         stmt.executeUpdate(sql);
+	         
+//	         sql = "CREATE TABLE unrealisedTimeslot " +
+//                     "(id                  INT   PRIMARY KEY       NOT NULL," +
+//                     " assignedEmployee    TEXT                    NOT NULL," + 
+//                     " assignedMinutes     INT                     NOT NULL," +
+//	         		 " day                 DATE                    NOT NULL)";
+//	         stmt.executeUpdate(sql);
 	         
 	         sql = "CREATE TABLE parameters " +
                      "(serialNumber        INT     DEFAULT 0)";
