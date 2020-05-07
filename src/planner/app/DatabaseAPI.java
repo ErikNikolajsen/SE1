@@ -40,7 +40,7 @@ public class DatabaseAPI {
 	         stmt.executeUpdate(sql);
 	         
 	         sql = "CREATE TABLE activities " +
-                     "(id                  INT    PRIMARY KEY      NOT NULL," +
+                     "(id                  INTEGER    PRIMARY KEY ," +
                      " activityName        TEXT                    NOT NULL," +
                      " expectedMinutes     INT                     NOT NULL," + 
                      " startTime           DATE                    NOT NULL," +
@@ -49,9 +49,9 @@ public class DatabaseAPI {
 	         stmt.executeUpdate(sql);
 	         
 	         sql = "CREATE TABLE timeslot " +
-                     "(id                  INT   PRIMARY KEY       NOT NULL," +
+                     "(id                  INTEGER   PRIMARY KEY ," +
                      " employee            TEXT                    NOT NULL," + 
-                     " activity            TEXT                    NOT NULL," +
+                     " activity            INT                    NOT NULL," +
                      " spendMinutes        INT                     NOT NULL," +
 	         		 " day                 DATE                    NOT NULL)";
 	         stmt.executeUpdate(sql);

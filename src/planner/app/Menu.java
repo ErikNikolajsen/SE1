@@ -23,7 +23,7 @@ public class Menu {
 				Projects.displayProjects();
 			} else if (n.equals("3")) {
 				validInput = true;
-				activity.displayactivity();
+				activity.displayActivity();
 			} else if (n.equals("4") && DatabaseAPI.selectInt("projects WHERE projectLeader = '" + Model.currentUser + "'", "projectNumber").size() > 0) {
 				validInput = true;
 				ProjectLeader.chooseProject();
