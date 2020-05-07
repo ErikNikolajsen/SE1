@@ -2,8 +2,11 @@ package planner.app;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.temporal.TemporalField;
+import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class ProjectLeader {
 	
@@ -41,8 +44,10 @@ public class ProjectLeader {
 		System.out.println("1. See Activities");
 		System.out.println("2. Add Activity");
 		System.out.println("3. Delete Activity");
-		System.out.println("4. See Daily Journal");
-		System.out.println("5. Exit");
+		System.out.println("4. Allocate employee");
+		System.out.println("5. Deallocate employee");
+		System.out.println("6. See Daily Journal");
+		System.out.println("7. Exit");
 		
 		boolean validInput = false;
 		while (validInput == false) {
@@ -58,8 +63,14 @@ public class ProjectLeader {
 				ProjectLeader.deleteActivityView();
 			} else if (n.equals("4")) {
 				validInput = true;
-				ProjectLeader.displayJournalView();
+				ProjectLeader.allocateEmployeeView();
 			} else if (n.equals("5")) {
+				validInput = true;
+				ProjectLeader.deallocateEmployeeView();
+			} else if (n.equals("6")) {
+				validInput = true;
+				ProjectLeader.displayJournalView();
+			} else if (n.equals("7")) {
 				validInput = true;
 				Menu.displayMenu();
 			} else {
@@ -68,6 +79,35 @@ public class ProjectLeader {
 		}
 	}
 	
+	private static void deallocateEmployeeView() {
+		System.out.println("Choose employee initials:");
+		String employeeInitials = Model.scan.nextLine();
+		
+		System.out.println("Choose activity id:");
+		while(!Model.scan.hasNextInt()) {
+		    Model.scan.next();
+		}
+		int activityID = Model.scan.nextInt();
+		
+		deallocateEmployee(employeeInitials, activityID);
+		displayProjectLeader();
+		
+	}
+
+	private static void allocateEmployeeView() {
+		System.out.println("Choose employee initials:");
+		String employeeInitials = Model.scan.nextLine();
+		
+		System.out.println("Choose activity id:");
+		while(!Model.scan.hasNextInt()) {
+		    Model.scan.next();
+		}
+		int activityID = Model.scan.nextInt();
+		
+		allocateEmployee(employeeInitials, activityID);
+		displayProjectLeader();
+	}
+
 	public static void seeActivitiesView() {
 		seeActivities();
 		displayProjectLeader();
@@ -162,14 +202,33 @@ public class ProjectLeader {
 	}
 	
 	private static void seeActivities() {
+		ArrayList<Integer> id = DatabaseAPI.selectInt("activities WHERE project = " + openedProject, "id");
 		ArrayList<String> activityName = DatabaseAPI.selectString("activities WHERE project = " + openedProject, "activityName");
 		ArrayList<Integer> expectedMinutes = DatabaseAPI.selectInt("activities WHERE project = " + openedProject, "expectedMinutes");
 		ArrayList<String> startTime = DatabaseAPI.selectString("activities WHERE project = " + openedProject, "startTime");
 		ArrayList<String> endTime = DatabaseAPI.selectString("activities WHERE project = " + openedProject, "endTime");
+		ArrayList<Integer> nettoSpendMinutes = new ArrayList<Integer>();
+		TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear(); 
+		
+		for (int p = 0 ; p < id.size() ; p++) {
+		int nettoSpendMinutesTemp = 0;
+		ArrayList<Integer> allSpendMinutes = DatabaseAPI.selectInt("timeslot WHERE activity = " + id.get(p), "spendMinutes");
+		for (int n = 0 ; n < allSpendMinutes.size() ; n++) {
+			nettoSpendMinutesTemp = nettoSpendMinutesTemp + allSpendMinutes.get(n);
+		}
+		nettoSpendMinutes.add(nettoSpendMinutesTemp);
+		}
+		
 		System.out.println("Current activities in the project:\n");
-		System.out.format("%-35s %-12s %-11s %-11s %n", "Name", "Minutes", "Start", "End");
+		System.out.format("%-4s %-35s %-15s %-11s %-11s %-11s  %s %n", "ID", "Name", "Allocated time", "Spend time", "Start", "End", "Allocated employees");
 		for (int i = 0 ; i < activityName.size() ; i++) {
-			System.out.format("%-35s %-12s %-11s %-11s %n",activityName.get(i), expectedMinutes.get(i), startTime.get(i), endTime.get(i));
+			ArrayList<String> associatedEmployees = DatabaseAPI.selectString("allocatedEmployees WHERE activity = " + id.get(i), "employee");
+			String allocatedEmployees = "";
+			for (int n = 0 ; n < associatedEmployees.size() ; n++) {
+				allocatedEmployees = allocatedEmployees + " " + associatedEmployees.get(n);  
+			}
+			
+			System.out.format("%-4s %-35s %-15s %-11s %-11s %-11s %s %n", id.get(i), activityName.get(i), expectedMinutes.get(i), nettoSpendMinutes.get(i), LocalDate.parse(startTime.get(i)).getYear() + "-W" + LocalDate.parse(startTime.get(i)).get(woy), LocalDate.parse(endTime.get(i)).getYear() + "-W" + LocalDate.parse(endTime.get(i)).get(woy), allocatedEmployees);
 		}
 	}
 	
@@ -183,10 +242,36 @@ public class ProjectLeader {
 		}
 	}
 	
+	private static void allocateEmployee(String employeeInitials, int activityID) {
+		if (!DatabaseAPI.selectString("employees", "initials").contains(employeeInitials.toUpperCase())) {
+			System.out.println("Error: no employee with that name exists in the database");
+		} else if (DatabaseAPI.selectString("allocatedEmployees WHERE employee = '" + employeeInitials.toUpperCase() + "' AND activity = " + activityID, "employee").size() == 1) {
+			System.out.println("Error: the employee is already allocated to the activity");
+		} else if (!DatabaseAPI.selectInt("activities", "id").contains(activityID)) {
+			System.out.println("Error: no activity with that id exists in the database");
+		} else {
+			String sql = "INSERT INTO allocatedEmployees (employee, activity) " +
+                    "VALUES ('" + employeeInitials.toUpperCase() + "', " + activityID + ");"; 
+			DatabaseAPI.createStatement(sql);
+			System.out.println("Success: the employee '" + employeeInitials.toUpperCase() + "' was allocated to activity " + activityID);
+		}
+	}
 	
+	private static void deallocateEmployee(String employeeInitials, int activityID) {
+		if (!DatabaseAPI.selectString("employees", "initials").contains(employeeInitials.toUpperCase())) {
+			System.out.println("Error: no employee with that name exists in the database");
+		} else if (!DatabaseAPI.selectInt("activities", "id").contains(activityID)) {
+			System.out.println("Error: no activity with that id exists in the database");
+		} else if (!(DatabaseAPI.selectString("allocatedEmployees WHERE employee = '" + employeeInitials.toUpperCase() + "' AND activity = " + activityID, "employee").size() == 1)) {
+			System.out.println("Error: the employee is not allocated to the activity");
+		} else {
+			String sql = "DELETE FROM allocatedEmployees WHERE employee = '" + employeeInitials.toUpperCase() + "' AND activity = " + activityID + ";";
+			DatabaseAPI.createStatement(sql);
+			System.out.println("Success: the employee '" + employeeInitials.toUpperCase() + "' was deallocated from activity " + activityID);
+		}
+	}
+
 }
-
-
 
 
 
