@@ -56,7 +56,7 @@ public class Employees {
 		while (validInput == false) {
 			String n = Model.scan.nextLine();
 			if (n.equals("1")) {
-				deleteEmployee(initials);
+				System.out.println(deleteEmployee(initials));
 				validInput = true;
 			} else if (n.contentEquals("2")){
 				validInput = true;
@@ -96,16 +96,18 @@ public class Employees {
 		}
 	}
 	
-	public static void deleteEmployee(String initials) {
+	public static String deleteEmployee(String initials) {
 		if (!DatabaseAPI.selectString("employees", "initials").contains(initials.toUpperCase())) {
-			System.out.println("Error: no employee with those initials exists in the database");
+			return "Error: no employee with those initials exists in the database";
 		} else if (initials.toUpperCase().equals(Model.currentUser)) {
-			System.out.println("Error: it is not possible to delete yourself");
+			return "Error: it is not possible to delete yourself";
+		} else if (DatabaseAPI.selectString("projects WHERE projectLeader = '" + initials.toUpperCase() + "'", "projectNumber").size() >= 1) {
+			return "Error: the employee is a project leader";
 		} else {
 			String sql = "DELETE FROM employees WHERE initials = '" + initials.toUpperCase() + "';";
 			
 			DatabaseAPI.createStatement(sql);
-			System.out.println("Success: the employee " + initials.toUpperCase() + " was deleted from the database");
+			return "Success: the employee " + initials.toUpperCase() + " was deleted from the database";
 		}
 	}
 	

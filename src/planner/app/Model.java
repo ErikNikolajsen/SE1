@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Model {
 	
-	static String currentUser;
-	static Scanner scan = new Scanner(System.in);
+	public static String currentUser;
+	public static Scanner scan = new Scanner(System.in);
 	
 }
