@@ -36,7 +36,7 @@ public class DatabaseAPI {
 	         sql = "CREATE TABLE projects " +
                      "(projectNumber   INT    PRIMARY KEY     NOT NULL," +
                      " projectName     TEXT                   NOT NULL," + 
-                     " projectLeader   TEXT)";
+                     " projectLeader   TEXT                   NOT NULL)";
 	         stmt.executeUpdate(sql);
 	         
 	         sql = "CREATE TABLE activities " +

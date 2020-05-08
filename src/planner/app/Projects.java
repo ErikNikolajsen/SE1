@@ -59,7 +59,7 @@ public class Projects {
 		}
 		System.out.println("Choose initials of project leader:");
 		String leaderInitials = Model.scan.nextLine();
-		addProject(projectName, leaderInitials);
+		System.out.println(addProject(projectName, leaderInitials));
 		displayProjects();
 	}
 	
@@ -76,7 +76,7 @@ public class Projects {
 		while (validInput == false) {
 			String n = Model.scan.nextLine();
 			if (n.equals("1")) {
-				deleteProject(number);
+				System.out.println(deleteProject(number));
 				validInput = true;
 			} else if (n.contentEquals("2")){
 				validInput = true;
@@ -88,7 +88,7 @@ public class Projects {
 	}
 	
 	// Controller events
-	private static void addProject(String name, String initials) {
+	public static String addProject(String name, String initials) {
 		String year = Integer.toString(Calendar.getInstance().get(Calendar.YEAR));
 		String abbreviatedYear = year.substring(year.length()-2);
 		int currentSerial = DatabaseAPI.selectInt("parameters", "serialNumber").get(0);
@@ -100,30 +100,25 @@ public class Projects {
 			serialNumber = "00" + serialNumber;
 		} else if (serialNumber.length() == 3) {
 			serialNumber = "0" + serialNumber;
-		} else if (serialNumber.length() != 4) {
-			System.out.println("Error: the database cannot contain more projects");
-			displayProjects();
-		}
+		} 
 		String projectNumber = abbreviatedYear + serialNumber;
 		
 		if (name.equals("")) {
-			System.out.println("Error: empty name string");
+			return "Error: empty name string";
 		
 		} else if (DatabaseAPI.selectString("projects", "projectName").contains(name.toLowerCase())) {
-			System.out.println("Error: project already exists in the database");
+			return "Error: project already exists in the database";
 			
 		} else if (!DatabaseAPI.selectString("employees", "initials").contains(initials.toUpperCase())) {
-			System.out.println("Error: invalid employeer initials");
+			return "Error: invalid employeer initials";
 			
 		} else {
 			String sql = "INSERT INTO projects (projectNumber, projectName, projectLeader) " +
                       "VALUES ('" + projectNumber + "', '" + name.toLowerCase() + "', '" + initials.toUpperCase() + "');";
 				
 			DatabaseAPI.createStatement(sql);
-			System.out.println("Success: the project '" + name + " : " + projectNumber + "' was added to the database");
-			
 			DatabaseAPI.createStatement("UPDATE parameters SET serialNumber = " + thisSerial + " WHERE serialNumber = " + currentSerial + ";"); //increases serial number in database
-			
+			return "Success: the project '" + name + "' was added to the database";
 		}
 	}
 	
@@ -144,15 +139,29 @@ public class Projects {
 		}
 	}
 	
-	private static void deleteProject(String number) {
+	public static String deleteProject(String number) {
 		if (!DatabaseAPI.selectString("projects", "projectNumber").contains(number)) {
-			System.out.println("Error: no project with that project-number exists in the database");
+			return "Error: no project with that project-number exists in the database";
 		} else {
-			
 			String sql = "DELETE FROM projects WHERE projectNumber = '" + number + "';";
 			DatabaseAPI.createStatement(sql);
-			System.out.println("Success: the project '" + number + "' was deleted from the database");
-			
+			return "Success: the project '" + number + "' was deleted from the database";
 		}
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -101,8 +101,6 @@ public class Employees {
 			return "Error: no employee with those initials exists in the database";
 		} else if (initials.toUpperCase().equals(Model.currentUser)) {
 			return "Error: it is not possible to delete yourself";
-		} else if (DatabaseAPI.selectString("projects WHERE projectLeader = '" + initials.toUpperCase() + "'", "projectNumber").size() >= 1) {
-			return "Error: the employee is a project leader";
 		} else {
 			String sql = "DELETE FROM employees WHERE initials = '" + initials.toUpperCase() + "';";
 			
