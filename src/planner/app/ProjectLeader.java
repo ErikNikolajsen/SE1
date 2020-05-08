@@ -104,7 +104,7 @@ public class ProjectLeader {
 		}
 		int activityID = Model.scan.nextInt();
 		
-		allocateEmployee(employeeInitials, activityID);
+		System.out.println(allocateEmployee(employeeInitials, activityID));
 		displayProjectLeader();
 	}
 
@@ -242,18 +242,18 @@ public class ProjectLeader {
 		}
 	}
 	
-	private static void allocateEmployee(String employeeInitials, int activityID) {
+	public static String allocateEmployee(String employeeInitials, int activityID) {
 		if (!DatabaseAPI.selectString("employees", "initials").contains(employeeInitials.toUpperCase())) {
-			System.out.println("Error: no employee with that name exists in the database");
+			return "Error: no employee with that name exists in the database";
 		} else if (DatabaseAPI.selectString("allocatedEmployees WHERE employee = '" + employeeInitials.toUpperCase() + "' AND activity = " + activityID, "employee").size() == 1) {
-			System.out.println("Error: the employee is already allocated to the activity");
+			return "Error: the employee is already allocated to the activity";
 		} else if (!DatabaseAPI.selectInt("activities", "id").contains(activityID)) {
-			System.out.println("Error: no activity with that id exists in the database");
+			return "Error: no activity with that id exists in the database";
 		} else {
 			String sql = "INSERT INTO allocatedEmployees (employee, activity) " +
                     "VALUES ('" + employeeInitials.toUpperCase() + "', " + activityID + ");"; 
 			DatabaseAPI.createStatement(sql);
-			System.out.println("Success: the employee '" + employeeInitials.toUpperCase() + "' was allocated to activity " + activityID);
+			return "Success: the employee '" + employeeInitials.toUpperCase() + "' was allocated to activity " + activityID;
 		}
 	}
 	
