@@ -60,7 +60,7 @@ public class activity {
 		}
 		int spendMinutes = Model.scan.nextInt();
 		
-		registerHours(activity, spendMinutes);
+		System.out.println(registerHours(activity, spendMinutes));
 		displayActivity();
 	}
 
@@ -97,7 +97,7 @@ public class activity {
 		
 	}
 	
-	private static void registerHours(int activityID, int spendMinutes) {
+	private static String registerHours(int activityID, int spendMinutes) {
 		int expectedMinutes = DatabaseAPI.selectInt("activities WHERE id = " + activityID, "expectedMinutes").get(0);
 		int nettoSpendMinutes = 0;
 		ArrayList<Integer> allSpendMinutes = DatabaseAPI.selectInt("timeslot WHERE activity = " + activityID, "spendMinutes");
@@ -110,19 +110,22 @@ public class activity {
 		LocalDate currentDay = LocalDate.now();
 		// Error if no such activity exists
 		if (!(DatabaseAPI.selectString("activities WHERE id = " + activityID, "activityName").size() == 1)) {
-			System.out.println("Error: activity does not exist in the database");
+			return "Error: activity does not exist in the database";
 		// Error if current day is not between activity start and end day
 		} else if (currentDay.isBefore(LocalDate.parse(DatabaseAPI.selectString("activities WHERE id = " + activityID , "startTime").get(0))) || currentDay.isAfter(LocalDate.parse(DatabaseAPI.selectString("activities WHERE id = " + activityID , "endTime").get(0)))) {
-			System.out.println("Error: the activity has not yet started or it has passed");
+			return "Error: the activity has not yet started or it has passed";
 		// Error if accumulated spentMinutes are larger than expectedMinutes
 		} else if (nettoSpendMinutes > expectedMinutes) {
-			System.out.println("Error: total spend minutes exceeds allowed amount");
+			return "Error: total spend minutes exceeds allowed amount";
+		// Error if currentUser is not allocated to the activity
+		} else if (!(DatabaseAPI.selectInt("allocatedEmployees WHERE employee = '" + Model.currentUser + "'", "activity").contains(activityID))) {
+			return "Error: you are not allocated to the activity";
 		
 		} else {
 			String sql = "INSERT INTO timeslot (employee, activity, spendMinutes, day) " +
                       "VALUES ('" + Model.currentUser.toUpperCase() + "', " + activityID + ", " + spendMinutes + ", '" + currentDay + "');"; 
 			DatabaseAPI.createStatement(sql);
-			System.out.println("Success: the timeslot was successfully was added to the database");
+			return "Success: the timeslot was successfully was added to the database";
 		}
 		
 	}

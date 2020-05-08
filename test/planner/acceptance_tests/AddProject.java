@@ -89,7 +89,24 @@ public class AddProject {
 		assertEquals("Success: the project '" + projectNumber + "' was deleted from the database", Projects.deleteProject(Integer.toString(projectNumber)));
 	}
 
+	@When("the entered project number does not equal any of the projects in the database")
+	public void theEnteredProjectNumberDoesNotEqualAnyOfTheProjectsInTheDatabase() {
+	    int i = 1;
+	    ArrayList<Integer> projectNumbers = DatabaseAPI.selectInt("projects", "projectNumber");
+	    while (true) {
+	    	if (!projectNumbers.contains(i)) {
+	    		break;
+	    	} else {
+	    		i++;
+	    	}
+	    }
+	    projectNumber = i;
+	}
 
+	@Then("the project is not deleted from the database")
+	public void theProjectIsNotDeletedFromTheDatabase() {
+		assertEquals("Error: no project with that project-number exists in the database", Projects.deleteProject(Integer.toString(projectNumber)));
+	}
 }
 
 
