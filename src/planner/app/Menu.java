@@ -2,7 +2,7 @@ package planner.app;
 
 public class Menu {
 	
-	static void displayMenu() {
+	public static void displayMenu() {
 		System.out.println("");
 		System.out.println("Welcome to the main screen!");
 		System.out.println("Choose menu item:");

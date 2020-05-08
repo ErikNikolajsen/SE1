@@ -39,7 +39,7 @@ public class Employees {
 		String name = Model.scan.nextLine();
 		System.out.println("Choose employee initials");
 		String initials = Model.scan.nextLine();
-		addEmployee(name, initials);
+		System.out.println(addEmployee(name, initials));
 		displayEmployees();
 	}
 	
@@ -69,22 +69,22 @@ public class Employees {
 	
 	
 	//Controller events
-	private static void addEmployee(String name, String initials) {
+	public static String addEmployee(String name, String initials) {
 		// Error if no name is entered
 		if (name.equals("")) {
-			System.out.println("Error: empty name string");
+			return "Error: empty name string";
 		
 		// Error if no initials are entered
 		} else if (initials.equals("")) {
-			System.out.println("Error: empty initials string");
+			return "Error: empty initials string";
 		
 		// Error if initials are longer than 4 characters
 		} else if (initials.length() > 4) {
-			System.out.println("Error: initials must be less than 4 characters long");
+			return "Error: initials must be less than 5 characters long";
 		
 		// Error if an employee in the database has the same initials
 		} else if (DatabaseAPI.selectString("employees", "initials").contains(initials.toUpperCase())) {
-			System.out.println("Error: initials already exists in the database");
+			return "Error: initials already exists in the database";
 			
 		// If no errors are found in the inserted data the employee is added to the database as a non-projectLeader
 		} else {
@@ -92,11 +92,11 @@ public class Employees {
                       "VALUES ('" + initials.toUpperCase() + "', '" + name + "');"; 
 	
 			DatabaseAPI.createStatement(sql);
-			System.out.println("Success: the employee " + initials.toUpperCase() + " was added to the database");
+			return "Success: the employee " + initials.toUpperCase() + " was added to the database";
 		}
 	}
 	
-	private static void deleteEmployee(String initials) {
+	public static void deleteEmployee(String initials) {
 		if (!DatabaseAPI.selectString("employees", "initials").contains(initials.toUpperCase())) {
 			System.out.println("Error: no employee with those initials exists in the database");
 		} else if (initials.toUpperCase().equals(Model.currentUser)) {

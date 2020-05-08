@@ -40,7 +40,7 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/cucumber-gherkin-vintage-5.1.0.jar">
+	<classpathentry kind="lib" path="lib/cucumber-gherkin-vintage-5.1.0.jar" sourcepath="C:/Users/User/.m2/repository/io/cucumber/cucumber-gherkin-vintage/5.1.0/cucumber-gherkin-vintage-5.1.0-sources.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>

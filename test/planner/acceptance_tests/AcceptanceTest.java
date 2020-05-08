@@ -12,7 +12,7 @@ import io.cucumber.junit.CucumberOptions.SnippetType;
 	plugin = { "html:target/cucumber/wikipedia.html"}, 
 	monochrome=true, 
 	snippets = SnippetType.CAMELCASE, 
-	glue = { "dtu.planner.acceptance_tests"},
+	glue = { "planner.acceptance_tests"},
 	strict = true)
 public class AcceptanceTest {
 
