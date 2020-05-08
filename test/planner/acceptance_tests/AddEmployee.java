@@ -6,19 +6,20 @@ import io.cucumber.java.en.When;
 import planner.app.DatabaseAPI;
 import planner.app.Employees;
 import planner.app.Model;
+import planner.app.Projects;
 
 public class AddEmployee {
 	
 	private String name;
 	private String initials;
 	
+	// Add employee
+	
 	@Given("that no employee with initials {string} exist in the database")
 	public void thatNoEmployeeWithInitialsExistInTheDatabase(String initials2) {
 	    if (DatabaseAPI.selectString("employees", "initials").contains(initials2)) {
-	    	Employees.deleteEmployee(initials2);
+	    	DatabaseAPI.createStatement("DELETE FROM employees WHERE initials = '" + initials2 + "';");
 	    }
-	    
-	    System.out.println("1 "+DatabaseAPI.selectString("employees", "initials").contains("jd".toUpperCase())); //temp
 	}
 	
 	@When("the entered name is {string}")
@@ -33,7 +34,6 @@ public class AddEmployee {
 	
 	@Then("the employee is added to the database")
 	public void theEmployeeIsAddedToTheDatabase() throws Exception {
-		System.out.println(DatabaseAPI.selectString("employees", "initials").contains("jd".toUpperCase())); //temp
 		assertEquals("Success: the employee " + initials.toUpperCase() + " was added to the database", Employees.addEmployee(name, initials));
 		assertTrue(DatabaseAPI.selectString("employees", "initials").contains(initials.toUpperCase()));
 	}
@@ -67,6 +67,8 @@ public class AddEmployee {
 	
 	//--------------------------
 	
+	//Delete employee
+	
 	@Then("the employee is deleted from the database")
 	public void theEmployeeIsDeletedFromTheDatabase() {
 		assertEquals(Employees.deleteEmployee(initials), "Success: the employee " + initials.toUpperCase() + " was deleted from the database");
@@ -88,18 +90,16 @@ public class AddEmployee {
 		assertEquals(Employees.deleteEmployee(initials), "Error: it is not possible to delete yourself");
 	}
 	
-	@Given("the employee {string} is a project leader")
-	public void theEmployeeIsAProjectLeader(String string) {
-	    if (!(DatabaseAPI.selectString("projects WHERE projectLeader = '" + initials.toUpperCase() + "'", "projectNumber").size() >= 1)) {
-	    	
+	@Given("the employee {string} is not currently logged in")
+	public void theEmployeeIsNotCurrentlyLoggedIn(String initials2) {
+	    if (Model.currentUser == initials2) {
+	    	Model.currentUser = "TEST INITIALS";
 	    }
 	}
+	
 
-	@Then("the employee is not deleted from the database - error three")
-	public void theEmployeeIsNotDeletedFromTheDatabaseErrorThree() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
-	}
+	
+	
 }
 
 
