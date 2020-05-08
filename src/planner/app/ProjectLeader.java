@@ -11,7 +11,7 @@ import java.util.Locale;
 public class ProjectLeader {
 	
 	private static ArrayList<String> usersProjects;
-	private static String openedProject;
+	public static String openedProject;
 	
 	public static void chooseProject() {
 		usersProjects = DatabaseAPI.selectString("projects WHERE projectLeader = '" + Model.currentUser + "'", "projectNumber");
@@ -147,14 +147,14 @@ public class ProjectLeader {
 		}
 		int endTimeWeek = Model.scan.nextInt();
 		
-		addActivity(name, expectedMinutes, startTimeYear, startTimeWeek, endTimeYear, endTimeWeek);
+		System.out.println(addActivity(name, expectedMinutes, startTimeYear, startTimeWeek, endTimeYear, endTimeWeek));
 		displayProjectLeader();
 	}
 	
 	public static void deleteActivityView() {
 		System.out.println("Choose the activity you wish to delete");
 		String activity = Model.scan.nextLine();
-		deleteActivity(activity);
+		System.out.println(deleteActivity(activity));
 		displayProjectLeader();
 	}
 
@@ -164,7 +164,7 @@ public class ProjectLeader {
 	
 	// Events
 	
-	private static void addActivity(String name, int expectedMinutes, int startTimeYear, int startTimeWeek, int endTimeYear, int endTimeWeek) {
+	public static String addActivity(String name, int expectedMinutes, int startTimeYear, int startTimeWeek, int endTimeYear, int endTimeWeek) {
 		//Get Monday date of year and week number
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.YEAR, startTimeYear);
@@ -182,22 +182,22 @@ public class ProjectLeader {
 		
 		// Error if empty name string
 		if (name.equals("")) {
-			System.out.println("Error: empty name string");
+			return "Error: empty name string";
 		
 		// Error if an activity startTime is after endTime
 		} else if (endTime.isBefore(startTime)) {
-			System.out.println("Error: activity start-date is after the end-date");
+			return "Error: activity start-date is after the end-date";
 		
 		// Error if an activity in the database has the same name
 		} else if (DatabaseAPI.selectString("activities", "activityName").contains(name.toLowerCase())) {
-			System.out.println("Error: activity name already exists in the database");
+			return "Error: activity name already exists in the database";
 			
 		// If no errors are found in the inserted data the employee is added to the database as a non-projectLeader
 		} else {
 			String sql = "INSERT INTO activities (activityName, expectedMinutes, startTime, endTime, project) " +
                       "VALUES ('" + name.toLowerCase() + "', " + expectedMinutes + ", '" + startTime + "', '" + endTime + "', '" + openedProject + "');"; 
 			DatabaseAPI.createStatement(sql);
-			System.out.println("Success: the activity '" + name + "' was added to the database");
+			return "Success: the activity '" + name + "' was added to the database";
 		}
 	}
 	
@@ -232,13 +232,13 @@ public class ProjectLeader {
 		}
 	}
 	
-	private static void deleteActivity(String activity) {
+	public static String deleteActivity(String activity) {
 		if (!DatabaseAPI.selectString("activities", "activityName").contains(activity)) {
-			System.out.println("Error: no activity with that name exists in the database");
+			return "Error: no activity with that name exists in the database";
 		} else {
 			String sql = "DELETE FROM activities WHERE activityName = '" + activity + "';";
 			DatabaseAPI.createStatement(sql);
-			System.out.println("Success: the activity '" + activity + "' was deleted from the database");
+			return "Success: the activity '" + activity + "' was deleted from the database";
 		}
 	}
 	

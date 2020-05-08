@@ -14,13 +14,11 @@ import planner.app.Employees;
 import planner.app.Model;
 import planner.app.Projects;
 
-public class AddProject {
+public class ProjectSteps {
 	
 	private String projectName;
 	private String leaderInitials;
 	private int projectNumber;
-	
-	// Add Project
 	
 	@Given("that no project with name {string} exist in the database")
 	public void thatNoProjectWithNameExistInTheDatabase(String name) {
@@ -54,18 +52,17 @@ public class AddProject {
 	@Given("that a project with name {string} with leader {string} exist in the database")
 	public void thatAProjectWithNameWithLeaderExistInTheDatabase(String project, String initials) {
 		if (!DatabaseAPI.selectString("employees", "initials").contains(initials)) {
-			System.out.println(Employees.addEmployee("Test Employee", initials));
+			Employees.addEmployee("Test Employee", initials);
 	    }
 		
 		if (!DatabaseAPI.selectString("projects", "projectName").contains(project)) {
-			System.out.println(Projects.addProject(project, initials));
+			Projects.addProject(project, initials);
 	    }
 	    assertTrue(DatabaseAPI.selectString("projects", "projectName").contains(project));
 	}
 
 	@Then("the project is not added to the database - error two")
 	public void theProjectIsNotAddedToTheDatabaseErrorTwo() {
-	    // Write code here that turns the phrase above into concrete actions
 		assertEquals("Error: project already exists in the database", Projects.addProject(projectName, leaderInitials));
 	}
 	
@@ -73,11 +70,6 @@ public class AddProject {
 	public void theProjectIsNotAddedToTheDatabaseErrorThree() {
 		assertEquals("Error: empty name string", Projects.addProject(projectName, leaderInitials));
 	}
-
-
-//--------------------------
-	
-	// Delete project
 
 	@When("the entered project number is equal to the project {string}")
 	public void theEnteredProjectNumberIsEqualToTheProject(String projectName) {

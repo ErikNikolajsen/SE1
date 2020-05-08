@@ -12,12 +12,10 @@ import planner.app.Employees;
 import planner.app.Model;
 import planner.app.Projects;
 
-public class AddEmployee {
+public class EmployeeSteps {
 	
 	private String name;
 	private String initials;
-	
-	// Add employee
 	
 	@Given("that no employee with initials {string} exist in the database")
 	public void thatNoEmployeeWithInitialsExistInTheDatabase(String initials2) {
@@ -68,10 +66,6 @@ public class AddEmployee {
 	public void theNewEmployeeIsNotAddedToTheDatabaseErrorFour() {
 		assertEquals(Employees.addEmployee(name, initials), "Error: empty initials string");
 	}
-	
-	//--------------------------
-	
-	//Delete employee
 	
 	@Then("the employee is deleted from the database")
 	public void theEmployeeIsDeletedFromTheDatabase() {
