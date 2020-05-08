@@ -152,7 +152,6 @@ public class Projects {
 			String sql = "DELETE FROM projects WHERE projectNumber = '" + number + "';";
 			DatabaseAPI.createStatement(sql);
 			System.out.println("Success: the project '" + number + "' was deleted from the database");
-			
 		}
 	}
 }
