@@ -84,7 +84,14 @@ public class RegisterSteps {
 	public void theRegisteredHoursAreNotAddedToTheDatabaseErrorFour() {
 		assertEquals("Error: you are not allocated to the activity", Activity.registerHours(activityID, spendTime));
 	}
+	
+	@When("{string} minutes have already been registered as spent on the activity")
+	public void minutesHaveAlreadyBeenRegisteredAsSpentOnTheActivity(String string) {
+		DatabaseAPI.createStatement("INSERT INTO timeslot (employee, activity, spendMinutes, day) VALUES ('"+currentUser+"', "+activityID+", "+string+", '"+Activity.currentDay+"');");
+	}
 }
+
+
 
 
 

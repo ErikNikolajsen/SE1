@@ -109,8 +109,10 @@ public class Activity {
 		int expectedMinutes = DatabaseAPI.selectInt("activities WHERE id = " + activityID, "expectedMinutes").get(0);
 		int nettoSpendMinutes = 0;
 		ArrayList<Integer> allSpendMinutes = DatabaseAPI.selectInt("timeslot WHERE activity = " + activityID, "spendMinutes");
-		for (int i = 0 ; i < allSpendMinutes.size() ; i++) {
-			nettoSpendMinutes = nettoSpendMinutes + allSpendMinutes.get(i);
+		if (allSpendMinutes.size() > 0) {
+			for (int i = 0 ; i < allSpendMinutes.size() ; i++) {
+				nettoSpendMinutes = nettoSpendMinutes + allSpendMinutes.get(i);
+			}
 		}
 		nettoSpendMinutes = nettoSpendMinutes + spendMinutes;
 		

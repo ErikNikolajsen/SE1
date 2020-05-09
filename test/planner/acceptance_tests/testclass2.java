@@ -4,16 +4,18 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import planner.app.DatabaseAPI;
 import planner.app.Projects;
 
 public class testclass2 {
 
-	//denne klasse laver JUnit tests på metoden deleteProject
+	//denne klasse laver JUnit tests pï¿½ metoden deleteProject
 	@Test
 	public void test() {
 		
 		//adds a project
 		String result = Projects.addProject("JUnitTest", "TEST");
+		//DatabaseAPI.createStatement(INSERT INTO projects ())
 		
 		//No input
 		result = Projects.deleteProject("");
@@ -30,5 +32,6 @@ public class testclass2 {
 		//fjerner et eksisterende projekt 
 		result = Projects.deleteProject("200095");
 		assertEquals("Success: the project '200095' was deleted from the database",result);
+		
 	}
 }

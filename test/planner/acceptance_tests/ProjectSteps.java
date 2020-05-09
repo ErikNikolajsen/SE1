@@ -19,6 +19,8 @@ public class ProjectSteps {
 	private String projectName;
 	private String leaderInitials;
 	private int projectNumber;
+	private int currentSerialNumber;
+	private int tempSerialNumber;
 	
 	@Given("that no project with name {string} exist in the database")
 	public void thatNoProjectWithNameExistInTheDatabase(String name) {
@@ -98,6 +100,22 @@ public class ProjectSteps {
 	@Then("the project is not deleted from the database")
 	public void theProjectIsNotDeletedFromTheDatabase() {
 		assertEquals("Error: no project with that project-number exists in the database", Projects.deleteProject(Integer.toString(projectNumber)));
+	}
+	
+	@Given("the current serialNumber parameter is {string}")
+	public void theCurrentSerialNumberParameterIs(String string) {
+		this.currentSerialNumber = DatabaseAPI.selectInt("parameters", "serialNumber").get(0);
+		this.tempSerialNumber = Integer.parseInt(string);
+	    DatabaseAPI.createStatement("UPDATE parameters SET serialNumber = " + tempSerialNumber + " WHERE serialNumber = " + currentSerialNumber);
+	}
+
+	@Then("the project is added to the database - success two")
+	public void theProjectIsAddedToTheDatabaseSuccessTwo() {
+		assertEquals("Success: the project '" + projectName + "' was added to the database", Projects.addProject(projectName, leaderInitials));
+	    assertTrue(DatabaseAPI.selectString("projects", "projectName").contains(projectName));
+	    int nr = DatabaseAPI.selectInt("projects WHERE projectName = '"+projectName+"'", "projectNumber").get(0);
+	    DatabaseAPI.createStatement("DELETE FROM projects WHERE projectNumber = "+nr+";");
+	    DatabaseAPI.createStatement("UPDATE parameters SET serialNumber = " + currentSerialNumber + " WHERE id = 1");
 	}
 }
 
