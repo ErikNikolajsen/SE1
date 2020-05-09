@@ -7,7 +7,7 @@ public class Employees {
 	public static void displayEmployees() {
 		System.out.println("Choose menu item:");
 		System.out.println("1. See employees");
-		System.out.println("2. Add employee");
+		System.out.println("2. Add employee"); 
 		System.out.println("3. Delete employee");
 		System.out.println("4. Exit");
 		
@@ -91,7 +91,7 @@ public class Employees {
 			String sql = "INSERT INTO employees (initials,name) " +
                       "VALUES ('" + initials.toUpperCase() + "', '" + name + "');"; 
 	
-			DatabaseAPI.createStatement(sql);
+			DatabaseAPI.createStatement(sql); 
 			return "Success: the employee " + initials.toUpperCase() + " was added to the database";
 		}
 	}
