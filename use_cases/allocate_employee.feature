@@ -1,33 +1,38 @@
 Feature: Allocate Employee
-	Description: A projectleader adds an activity to a project 
+	Description: A projectleader allocates an employee to an activity
 	Actors: A projectleader
 
-#Scenario: a leader allocates an employee to an activity
-#	Given that a project with name "make cucumber tests" with leader "TEST" exist in the database
-#	And the opened project is "make cucumber tests"
-#	And no activity with the name "add feature files" exist in the database
-#	When the entered activity name is "add feature files"
-#	And the entered expected time is "60"
-#	And the entered start year is "2020"
-#	And the entered start week is "16"
-#	And the entered end year is "2020"
-#	And the entered end week is "17"
-#	Then the activity is added to the database
+Scenario: a leader allocates an employee to an activity
+	Given activity with the id "1234" exist in the database
+	And an employee with initials "JD" exist in the database
+	And an the employee "JD" is not allocated to the "1234" activity
+	When the entered employee initials are "JD"
+	And the entered activity id is "1234"
+	Then the employee is allocated to the activity
 
-#Scenario: a leader allocates an employee that does not exist to an activity
+Scenario: a leader allocates an employee that does not exist to an activity
+	Given activity with the id "1234" exist in the database
+	And an the employee "JD" is not allocated to the "1234" activity
+	And that no employee with initials "JD" exist in the database
+	When the entered employee initials are "JD"
+	And the entered activity id is "1234"
+	Then the employee is not allocated to the activity - error one
 
-#Scenario: a leader allocates an employee to an activity that the employee is already allocated to
+Scenario: a leader allocates an employee to an activity that the employee is already allocated to
+	Given activity with the id "1234" exist in the database
+	And an employee with initials "JD" exist in the database
+	And an the employee "JD" is already allocated to the "1234" activity
+	When the entered employee initials are "JD"
+	And the entered activity id is "1234"
+	Then the employee is not allocated to the activity - error two
 
-#Scenario: a leader allocates an employee to an activity that does not exist
-
-
-	
-
-
-	
-
-
-
+Scenario: a leader allocates an employee to an activity that does not exist
+	Given activity with the id "1234" does not exist in the database
+	And an employee with initials "JD" exist in the database
+	And an the employee "JD" is not allocated to the "1234" activity
+	When the entered employee initials are "JD"
+	And the entered activity id is "1234"
+	Then the employee is not allocated to the activity - error three
 
 
 

@@ -89,7 +89,7 @@ public class ProjectLeader {
 		}
 		int activityID = Model.scan.nextInt();
 		
-		deallocateEmployee(employeeInitials, activityID);
+		System.out.println(deallocateEmployee(employeeInitials, activityID));
 		displayProjectLeader();
 		
 	}
@@ -257,17 +257,17 @@ public class ProjectLeader {
 		}
 	}
 	
-	private static void deallocateEmployee(String employeeInitials, int activityID) {
+	public static String deallocateEmployee(String employeeInitials, int activityID) {
 		if (!DatabaseAPI.selectString("employees", "initials").contains(employeeInitials.toUpperCase())) {
-			System.out.println("Error: no employee with that name exists in the database");
+			return "Error: no employee with that name exists in the database";
 		} else if (!DatabaseAPI.selectInt("activities", "id").contains(activityID)) {
-			System.out.println("Error: no activity with that id exists in the database");
+			return "Error: no activity with that id exists in the database";
 		} else if (!(DatabaseAPI.selectString("allocatedEmployees WHERE employee = '" + employeeInitials.toUpperCase() + "' AND activity = " + activityID, "employee").size() == 1)) {
-			System.out.println("Error: the employee is not allocated to the activity");
+			return "Error: the employee is not allocated to the activity";
 		} else {
 			String sql = "DELETE FROM allocatedEmployees WHERE employee = '" + employeeInitials.toUpperCase() + "' AND activity = " + activityID + ";";
 			DatabaseAPI.createStatement(sql);
-			System.out.println("Success: the employee '" + employeeInitials.toUpperCase() + "' was deallocated from activity " + activityID);
+			return "Success: the employee '" + employeeInitials.toUpperCase() + "' was deallocated from activity " + activityID;
 		}
 	}
 
