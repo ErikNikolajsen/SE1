@@ -26,6 +26,9 @@ public class testClass {
 		//Both name and initials as input
 		result = Employees.addEmployee("Joachim Leick Espersen", "JLEP");
 		assertEquals("Success: the employee JLEP was added to the database",result);
+		//Deletes the added user
+		result = Employees.deleteEmployee("JLEP"); 
+		assertEquals("Success: the employee JLEP was deleted from the database",result);
 		
 		//More than 4 initials
 		result = Employees.addEmployee("Joachim Leick Espersen", "JLESP");
@@ -36,8 +39,11 @@ public class testClass {
 		assertEquals("Success: the employee JLE was added to the database",result);
 		
 		//Name already exits
-		result = Employees.addEmployee("Joachim Leick Espersen", "JLEP");
+		result = Employees.addEmployee("Joachim Leick Espersen", "JLE");
 		assertEquals("Error: initials already exists in the database",result);
+		//deletes the added user
+		result = Employees.deleteEmployee("JLE");
+		assertEquals("Success: the employee JLE was deleted from the database",result);
 		
 	}
 }

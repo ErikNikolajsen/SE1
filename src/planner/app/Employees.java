@@ -96,12 +96,12 @@ public class Employees {
 		}
 	}
 	
-	public static String deleteEmployee(String initials) {
+	public static String deleteEmployee(String initials) { 
 		if (!DatabaseAPI.selectString("employees", "initials").contains(initials.toUpperCase())) {
 			return "Error: no employee with those initials exists in the database";
 		} else if (initials.toUpperCase().equals(Model.currentUser)) {
 			return "Error: it is not possible to delete yourself";
-		} else {
+		} else { 
 			String sql = "DELETE FROM employees WHERE initials = '" + initials.toUpperCase() + "';";
 			
 			DatabaseAPI.createStatement(sql);

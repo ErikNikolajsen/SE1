@@ -12,8 +12,11 @@ public class testclass2 {
 	@Test
 	public void test() {
 		
+		//adds a project
+		String result = Projects.addProject("JUnitTest", "TEST");
+		
 		//No input
-		String result = Projects.deleteProject("");
+		result = Projects.deleteProject("");
 		assertEquals("Error: no project with that project-number exists in the database",result);
 		
 		//Ikke eksisterende project
@@ -28,5 +31,4 @@ public class testclass2 {
 		result = Projects.deleteProject("200095");
 		assertEquals("Success: the project '200095' was deleted from the database",result);
 	}
-
 }
