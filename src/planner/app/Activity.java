@@ -6,7 +6,7 @@ import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class activity {
+public class Activity {
 	
 	public static LocalDate currentDay = LocalDate.now();
 	

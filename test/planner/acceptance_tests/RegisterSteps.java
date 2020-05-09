@@ -15,7 +15,7 @@ import planner.app.Employees;
 import planner.app.Model;
 import planner.app.ProjectLeader;
 import planner.app.Projects;
-import planner.app.activity;
+import planner.app.Activity;
 
 public class RegisterSteps {
 	
@@ -33,7 +33,7 @@ public class RegisterSteps {
 
 	@Given("the current day is {string}")
 	public void theCurrentDayIs(String string) {
-	    activity.currentDay = LocalDate.parse(string);
+	    Activity.currentDay = LocalDate.parse(string);
 	}
 
 	@When("the entered activity is {string}")
@@ -48,7 +48,7 @@ public class RegisterSteps {
 
 	@Then("the registered hours are added to the database")
 	public void theRegisteredHoursAreAddedToTheDatabase() {
-		assertEquals("Success: the timeslot was successfully was added to the database", activity.registerHours(activityID, spendTime));
+		assertEquals("Success: the timeslot was successfully was added to the database", Activity.registerHours(activityID, spendTime));
 		assertTrue(DatabaseAPI.selectInt("timeslot WHERE employee = '" + currentUser + "' AND activity = " + activityID, "id").size() >= 1);
 	}
 	
@@ -59,7 +59,7 @@ public class RegisterSteps {
 	
 	@Then("the registered hours are not added to the database - error one")
 	public void theRegisteredHoursAreNotAddedToTheDatabaseErrorOne() {
-		assertEquals("Error: activity does not exist in the database", activity.registerHours(activityID, spendTime));
+		assertEquals("Error: activity does not exist in the database", Activity.registerHours(activityID, spendTime));
 	}
 	
 	@Given("no hours are already registered to the {string} activity")
@@ -72,17 +72,17 @@ public class RegisterSteps {
 	
 	@Then("the registered hours are not added to the database - error two")
 	public void theRegisteredHoursAreNotAddedToTheDatabaseErrorTwo() {
-		assertEquals("Error: the activity has not yet started or it has passed", activity.registerHours(activityID, spendTime));
+		assertEquals("Error: the activity has not yet started or it has passed", Activity.registerHours(activityID, spendTime));
 	}
 	
 	@Then("the registered hours are not added to the database - error three")
 	public void theRegisteredHoursAreNotAddedToTheDatabaseErrorThree() {
-		assertEquals("Error: total spend minutes exceeds allowed amount", activity.registerHours(activityID, spendTime));
+		assertEquals("Error: total spend minutes exceeds allowed amount", Activity.registerHours(activityID, spendTime));
 	}
 	
 	@Then("the registered hours are not added to the database - error four")
 	public void theRegisteredHoursAreNotAddedToTheDatabaseErrorFour() {
-		assertEquals("Error: you are not allocated to the activity", activity.registerHours(activityID, spendTime));
+		assertEquals("Error: you are not allocated to the activity", Activity.registerHours(activityID, spendTime));
 	}
 }
 
