@@ -14,8 +14,8 @@ import planner.app.Projects;
 
 public class EmployeeSteps {
 	
-	private String name;
-	private String initials;
+	public String name;
+	public String initials;
 	
 	@Given("that no employee with initials {string} exist in the database")
 	public void thatNoEmployeeWithInitialsExistInTheDatabase(String initials2) {

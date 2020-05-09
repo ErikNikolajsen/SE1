@@ -8,6 +8,8 @@ import java.util.Locale;
 
 public class activity {
 	
+	public static LocalDate currentDay = LocalDate.now();
+	
 	static void displayActivity() {
 		System.out.println("");
 		System.out.println("Manage your Activities");
@@ -97,7 +99,13 @@ public class activity {
 		
 	}
 	
-	private static String registerHours(int activityID, int spendMinutes) {
+	public static String registerHours(int activityID, int spendMinutes) {
+		
+		// Error if no such activity exists
+		if (!(DatabaseAPI.selectString("activities WHERE id = " + activityID, "activityName").size() == 1)) {
+			return "Error: activity does not exist in the database";
+		}
+		
 		int expectedMinutes = DatabaseAPI.selectInt("activities WHERE id = " + activityID, "expectedMinutes").get(0);
 		int nettoSpendMinutes = 0;
 		ArrayList<Integer> allSpendMinutes = DatabaseAPI.selectInt("timeslot WHERE activity = " + activityID, "spendMinutes");
@@ -106,13 +114,8 @@ public class activity {
 		}
 		nettoSpendMinutes = nettoSpendMinutes + spendMinutes;
 		
-		
-		LocalDate currentDay = LocalDate.now();
-		// Error if no such activity exists
-		if (!(DatabaseAPI.selectString("activities WHERE id = " + activityID, "activityName").size() == 1)) {
-			return "Error: activity does not exist in the database";
 		// Error if current day is not between activity start and end day
-		} else if (currentDay.isBefore(LocalDate.parse(DatabaseAPI.selectString("activities WHERE id = " + activityID , "startTime").get(0))) || currentDay.isAfter(LocalDate.parse(DatabaseAPI.selectString("activities WHERE id = " + activityID , "endTime").get(0)))) {
+		if (currentDay.isBefore(LocalDate.parse(DatabaseAPI.selectString("activities WHERE id = " + activityID , "startTime").get(0))) || currentDay.isAfter(LocalDate.parse(DatabaseAPI.selectString("activities WHERE id = " + activityID , "endTime").get(0)))) {
 			return "Error: the activity has not yet started or it has passed";
 		// Error if accumulated spentMinutes are larger than expectedMinutes
 		} else if (nettoSpendMinutes > expectedMinutes) {
