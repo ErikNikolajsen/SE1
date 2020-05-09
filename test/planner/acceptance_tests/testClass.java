@@ -2,12 +2,11 @@ package planner.acceptance_tests;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
-
 import planner.app.Employees;
 
 public class testClass {
-	
-	// Denne klasse laver JUnit tests på addEmployee metoden
+// Denne klasse laver JUnit tests på addEmployee metoden
+
 	@Test
 	public void test1() {
 		
@@ -44,6 +43,5 @@ public class testClass {
 		//deletes the added user
 		result = Employees.deleteEmployee("JLE");
 		assertEquals("Success: the employee JLE was deleted from the database",result);
-		
 	}
 }
