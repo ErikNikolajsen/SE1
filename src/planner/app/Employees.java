@@ -91,13 +91,16 @@ public class Employees {
 			
 			assert !name.equals("")
 				&& !initials.equals("")
-				&& !(initials.length() > 4) : "Precondition";
+				&& !(initials.length() > 4)
+				&& !(DatabaseAPI.selectString("employees WHERE initials = '" + initials.toUpperCase() 
+				   + "'", "employee").size() == 1) : "Precondition";
 			
 			String sql = "INSERT INTO employees (initials,name) " +
                       "VALUES ('" + initials.toUpperCase() + "', '" + name + "');"; 
 			DatabaseAPI.createStatement(sql); 
 			
-			assert DatabaseAPI.selectString("employees WHERE initials = '" + initials + "'", "name").size() == 1 : "Postcondition";
+			assert DatabaseAPI.selectString("employees WHERE initials = '" + initials + 
+				   "' AND name = '" + name + "'", "name").size() == 1 : "Postcondition";
 			
 			return "Success: the employee " + initials.toUpperCase() + " was added to the database";
 		}
