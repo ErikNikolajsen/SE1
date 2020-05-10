@@ -243,19 +243,32 @@ public class ProjectLeader {
 	}
 	
 	public static String allocateEmployee(String employeeInitials, int activityID) {
+		
 		if (!DatabaseAPI.selectString("employees", "initials").contains(employeeInitials.toUpperCase())) {
 			return "Error: no employee with that name exists in the database";
-		} else if (DatabaseAPI.selectString("allocatedEmployees WHERE employee = '" + employeeInitials.toUpperCase() + "' AND activity = " + activityID, "employee").size() == 1) {
+		} else if (DatabaseAPI.selectString("allocatedEmployees WHERE employee = '" + employeeInitials.toUpperCase() 
+		+ "' AND activity = " + activityID, "employee").size() == 1) {
 			return "Error: the employee is already allocated to the activity";
 		} else if (!DatabaseAPI.selectInt("activities", "id").contains(activityID)) {
 			return "Error: no activity with that id exists in the database";
 		} else {
+			
+			assert DatabaseAPI.selectString("employees", "initials").contains(employeeInitials.toUpperCase())
+		    && !(DatabaseAPI.selectString("allocatedEmployees WHERE employee = '" + employeeInitials.toUpperCase() 
+			   + "' AND activity = " + activityID, "employee").size() == 1)
+			&& DatabaseAPI.selectInt("activities", "id").contains(activityID) : "Precondition";
+			
 			String sql = "INSERT INTO allocatedEmployees (employee, activity) " +
                     "VALUES ('" + employeeInitials.toUpperCase() + "', " + activityID + ");"; 
 			DatabaseAPI.createStatement(sql);
+			
+			assert DatabaseAPI.selectString("allocatedEmployees WHERE employee = '" + employeeInitials 
+				   + "' AND activity = " + activityID, "Employee").size() == 1 : "Postcondition";
+
 			return "Success: the employee '" + employeeInitials.toUpperCase() + "' was allocated to activity " + activityID;
 		}
 	}
+
 	
 	public static String deallocateEmployee(String employeeInitials, int activityID) {
 		if (!DatabaseAPI.selectString("employees", "initials").contains(employeeInitials.toUpperCase())) {

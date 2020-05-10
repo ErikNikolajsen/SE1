@@ -88,10 +88,17 @@ public class Employees {
 			
 		// If no errors are found in the inserted data the employee is added to the database as a non-projectLeader
 		} else {
+			
+			assert !name.equals("")
+				&& !initials.equals("")
+				&& !(initials.length() > 4) : "Precondition";
+			
 			String sql = "INSERT INTO employees (initials,name) " +
                       "VALUES ('" + initials.toUpperCase() + "', '" + name + "');"; 
-	
 			DatabaseAPI.createStatement(sql); 
+			
+			assert DatabaseAPI.selectString("employees WHERE initials = '" + initials + "'", "name").size() == 1 : "Postcondition";
+			
 			return "Success: the employee " + initials.toUpperCase() + " was added to the database";
 		}
 	}
