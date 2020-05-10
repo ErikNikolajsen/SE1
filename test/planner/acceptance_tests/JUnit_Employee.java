@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import planner.app.Employees;
 
-public class testClass {
+public class JUnit_Employee {
 // Denne klasse laver JUnit tests på addEmployee metoden
 
 	@Test
