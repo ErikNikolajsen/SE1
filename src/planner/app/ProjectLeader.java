@@ -46,8 +46,7 @@ public class ProjectLeader {
 		System.out.println("3. Delete Activity");
 		System.out.println("4. Allocate employee");
 		System.out.println("5. Deallocate employee");
-		System.out.println("6. See Daily Journal");
-		System.out.println("7. Exit");
+		System.out.println("6. Exit");
 		
 		boolean validInput = false;
 		while (validInput == false) {
@@ -68,9 +67,6 @@ public class ProjectLeader {
 				validInput = true;
 				ProjectLeader.deallocateEmployeeView();
 			} else if (n.equals("6")) {
-				validInput = true;
-				ProjectLeader.displayJournalView();
-			} else if (n.equals("7")) {
 				validInput = true;
 				Menu.displayMenu();
 			} else {
