@@ -1,3 +1,11 @@
+/*///////////////////////
+ * 
+ *    Author:
+ *    Joachim Leick Espersen
+ *    s194287
+ * 
+ *///////////////////////
+
 package planner.acceptance_tests;
 
 import static org.junit.Assert.*;
@@ -5,7 +13,7 @@ import org.junit.Test;
 import planner.app.Employees;
 
 public class JUnit_Employee {
-// Denne klasse laver JUnit tests på addEmployee metoden
+// Denne klasse laver JUnit tests pï¿½ addEmployee metoden
 
 	@Test
 	public void test1() {

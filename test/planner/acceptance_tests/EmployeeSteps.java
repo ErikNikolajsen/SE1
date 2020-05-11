@@ -1,3 +1,12 @@
+/*///////////////////////
+ * 
+ *    Author:
+ *    Joachim Leick Espersen
+ *    s194287
+ * 
+ *///////////////////////
+
+
 package planner.acceptance_tests;
 
 import static org.junit.Assert.assertEquals;

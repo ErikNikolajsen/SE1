@@ -1,3 +1,11 @@
+/*///////////////////////
+ * 
+ *    Author:
+ *    Joachim Leick Espersen
+ *    s194287
+ * 
+ *///////////////////////
+
 package planner.app;
 
 public class Main {

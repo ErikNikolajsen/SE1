@@ -1,3 +1,11 @@
+/*///////////////////////
+ * 
+ *    Author:
+ *    Erik Ravn Nikolajsen
+ *    s144382
+ * 
+ *///////////////////////
+
 package planner.acceptance_tests;
 
 import static org.junit.Assert.assertEquals;

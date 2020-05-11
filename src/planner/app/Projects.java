@@ -1,3 +1,11 @@
+/*///////////////////////
+ * 
+ *    Author:
+ *    Erik Ravn Nikolajsen
+ *    s144382
+ * 
+ *///////////////////////
+
 package planner.app;
 
 import java.util.ArrayList;
