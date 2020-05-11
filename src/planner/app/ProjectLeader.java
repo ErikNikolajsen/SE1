@@ -254,17 +254,17 @@ public class ProjectLeader {
 		} else {
 			
 			assert DatabaseAPI.selectString("employees", "initials").contains(employeeInitials.toUpperCase())
-		    && !(DatabaseAPI.selectString("allocatedEmployees WHERE employee = '" + employeeInitials.toUpperCase() 
-			   + "' AND activity = " + activityID, "employee").size() == 1)
-			&& DatabaseAPI.selectInt("activities", "id").contains(activityID) : "Precondition";
+			    && !(DatabaseAPI.selectString("allocatedEmployees WHERE employee = '" + employeeInitials.toUpperCase() 
+			       + "' AND activity = " + activityID, "employee").size() == 1)
+			    && DatabaseAPI.selectInt("activities", "id").contains(activityID) : "Precondition";
 			
 			String sql = "INSERT INTO allocatedEmployees (employee, activity) " +
-                    "VALUES ('" + employeeInitials.toUpperCase() + "', " + activityID + ");"; 
+	                "VALUES ('" + employeeInitials.toUpperCase() + "', " + activityID + ");"; 
 			DatabaseAPI.createStatement(sql);
 			
 			assert DatabaseAPI.selectString("allocatedEmployees WHERE employee = '" + employeeInitials 
 				   + "' AND activity = " + activityID, "Employee").size() == 1 : "Postcondition";
-
+	
 			return "Success: the employee '" + employeeInitials.toUpperCase() + "' was allocated to activity " + activityID;
 		}
 	}

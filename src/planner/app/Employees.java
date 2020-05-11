@@ -96,7 +96,7 @@ public class Employees {
 				   + "'", "employee").size() == 1) : "Precondition";
 			
 			String sql = "INSERT INTO employees (initials,name) " +
-                      "VALUES ('" + initials.toUpperCase() + "', '" + name + "');"; 
+	                  "VALUES ('" + initials.toUpperCase() + "', '" + name + "');"; 
 			DatabaseAPI.createStatement(sql); 
 			
 			assert DatabaseAPI.selectString("employees WHERE initials = '" + initials + 
